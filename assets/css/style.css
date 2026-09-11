@@ -1100,12 +1100,18 @@ button, input, select, textarea {
     left: 1.25rem;
     right: 1.25rem;
     flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
+    align-items: flex-start;
+    gap: 1.25rem;
   }
 
-  .hero-text-card {
-    padding: 1.25rem;
+  .hero-side-wrap {
+    align-items: flex-start;
+    text-align: start;
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
   }
 
   .project-card.span-7,

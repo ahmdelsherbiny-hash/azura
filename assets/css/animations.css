@@ -1,0 +1,124 @@
+/* ==========================================================================
+   AZURA STUDIO — ANIMATIONS & MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* Shimmer & Diamond Glow Keyframes */
+@keyframes diamondShimmer {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.92) rotate(45deg);
+    filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.2));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08) rotate(45deg);
+    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.8));
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.75);
+  }
+}
+
+@keyframes floatSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Scroll-to-Reveal Animation Classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-fade.revealed {
+  opacity: 1;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger Delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* Subtle Signature Diamond Spinner for Loader */
+.diamond-loader {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--azura-blue-glow);
+  transform: rotate(45deg);
+  animation: diamondShimmer 2s infinite ease-in-out;
+}
+
+/* Hero Split Wipe Pulse Effect */
+.hero-slider-handle {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.hero-badge-pill {
+  animation: floatSoft 4s infinite ease-in-out;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

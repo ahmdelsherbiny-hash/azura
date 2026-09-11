@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azura Studio — Architecture, Interior & Visualization</title>
+  <meta name="description" content="Azura Studio creates luxury architectural, interior, and photorealistic visualization sanctuaries. Spaces inspired by a brighter tomorrow." />
+
+  <!-- Favicon / Social Meta -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,10 90,50 50,90 10,50' fill='%231e70a8'/><polygon points='50,25 75,50 50,75 25,50' fill='%23dfcaa7'/></svg>" />
+  <meta property="og:title" content="Azura Studio — Architecture & Visualization" />
+  <meta property="og:description" content="Spaces inspired by a brighter tomorrow." />
+  <meta property="og:type" content="website" />
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+</head>
+<body>
+
+  <!-- Interactive Diamond Constellation Canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- =========================================================================
+       SITE HEADER & NAVIGATION
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container header-container">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="brand-logo-link" aria-label="Azura Studio Home">
+        <svg class="brand-emblem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#dfcaa7" />
+              <stop offset="50%" stop-color="#c5a880" />
+              <stop offset="100%" stop-color="#8c734e" />
+            </linearGradient>
+            <linearGradient id="logoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1e70a8" />
+              <stop offset="50%" stop-color="#0f3456" />
+              <stop offset="100%" stop-color="#07192a" />
+            </linearGradient>
+          </defs>
+          <!-- 'A' Structure with Gold Bevel -->
+          <polygon points="50,12 84,84 68,84 50,44 32,84 16,84" fill="url(#logoBlue)" stroke="url(#logoGold)" stroke-width="2.5" />
+          <!-- Golden Arch Sweep -->
+          <path d="M 18,65 Q 50,38 82,65" fill="none" stroke="url(#logoGold)" stroke-width="3" stroke-linecap="round" />
+          <!-- Suspended Blue Diamond / Star -->
+          <line x1="50" y1="48" x2="50" y2="78" stroke="url(#logoGold)" stroke-width="1.5" />
+          <polygon points="50,56 59,67 50,78 41,67" fill="url(#logoBlue)" stroke="url(#logoGold)" stroke-width="1.5" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-name">AZURA</span>
+          <span class="brand-sub">STUDIO</span>
+        </div>
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#projects" class="nav-link" data-i18n="navProjects">Projects</a></li>
+          <li><a href="#signature" class="nav-link" data-i18n="navAbout">About</a></li>
+          <li><a href="#services" class="nav-link" data-i18n="navServices">Services</a></li>
+          <li><a href="#contact" class="nav-link" data-i18n="navContact">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Utilities (Language, Theme, CTA) -->
+      <div class="header-actions">
+        <!-- Language Switcher -->
+        <button id="lang-toggle-btn" class="control-btn lang-btn" aria-label="Switch Language">
+          عربي
+        </button>
+
+        <!-- Theme Switcher -->
+        <button id="theme-toggle-btn" class="control-btn" aria-label="Toggle Dark / Light Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- Primary CTA -->
+        <a href="#contact" class="btn-primary">
+          <span data-i18n="ctaQuote">Request Quote</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button id="mobile-toggle" class="mobile-toggle" aria-label="Open Navigation Menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO SECTION (CINEMATIC SKETCH-TO-RENDER LASER SCANNER VIDEO & CANVAS)
+       ========================================================================= -->
+  <section id="hero" class="hero-section">
+    <div class="container">
+      
+      <div id="hero-visual-wrapper" class="hero-visual-wrapper reveal-fade">
+        <!-- Cinematic Looping Video -->
+        <video id="hero-cinematic-video" class="hero-video-media" autoplay loop muted playsinline poster="assets/images/hero_render.jpg">
+          <source src="assets/images/hero_cinematic.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Hardware-Accelerated Real-Time Stationary Laser Canvas Engine (Fallback & Interactive Mode) -->
+        <canvas id="hero-laser-canvas" class="hero-canvas-media"></canvas>
+
+        <!-- Overlay Laser Beam Indicator & Glowing Scan Line -->
+        <div id="hero-laser-beam" class="hero-laser-beam">
+          <div class="laser-flare-top"></div>
+          <div class="laser-flare-center">
+            <span class="laser-diamond-icon"></span>
+          </div>
+          <div class="laser-flare-bottom"></div>
+        </div>
+
+        <!-- Subtle Architectural Bottom Vignette for perfect text contrast -->
+        <div class="hero-vignette-overlay"></div>
+
+        <!-- Overlay Typography directly on visual (No Card Container) -->
+        <div class="hero-content-overlay">
+          <div class="hero-headline-wrap">
+            <span class="hero-tag" data-i18n="heroTag">Architectural Vision</span>
+            <h1 class="hero-title" data-i18n="heroTitle">Spaces Inspired By Tomorrow</h1>
+          </div>
+
+          <div class="hero-side-wrap">
+            <p class="hero-subtitle" data-i18n="heroSubtitle">
+              Bridging conceptual architectural artistry with immaculate photorealistic visualization.
+            </p>
+            <div class="hero-badge-pill">
+              <span class="hero-badge-dot"></span>
+              <span data-i18n="heroBadge">Open for Select Commissions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       BRAND SIGNATURE & PHILOSOPHY SECTION
+       ========================================================================= -->
+  <section id="signature" class="signature-section">
+    <div class="container">
+      <div class="signature-grid">
+        
+        <!-- Left: Studio Visual Frame -->
+        <div class="signature-emblem-wrap reveal-left">
+          <div class="signature-card-frame">
+            <img src="assets/images/azura_logo_mockup.jpg" alt="Azura Studio Luxury Identity" loading="lazy" />
+          </div>
+        </div>
+
+        <!-- Right: Studio Narrative & Pillars -->
+        <div class="signature-text-wrap reveal-right">
+          <span class="section-eyebrow" data-i18n="sigEyebrow">Design Philosophy</span>
+          <h2 class="section-heading" data-i18n="sigHeading">Architecture Crafted with Diamond Precision</h2>
+          <p class="section-desc" data-i18n="sigDesc">
+            Azura Studio creates refined residential, commercial, and hospitality sanctuaries. We curate atmospheres that transcend ordinary design through clean geometries, natural stone materiality, and luminous spatial poetry.
+          </p>
+
+          <!-- Pillars -->
+          <div class="pillars-list" id="services">
+            <div class="pillar-item delay-1 reveal">
+              <div class="pillar-num">01</div>
+              <h3 class="pillar-title" data-i18n="pillar1Title">Architectural Design</h3>
+              <p class="pillar-desc" data-i18n="pillar1Desc">Bespoke residential villas, high-rise towers, and master-planned spaces.</p>
+            </div>
+            <div class="pillar-item delay-2 reveal">
+              <div class="pillar-num">02</div>
+              <h3 class="pillar-title" data-i18n="pillar2Title">Interior Sanctuaries</h3>
+              <p class="pillar-desc" data-i18n="pillar2Desc">Curated travertine, oak, and marble interiors tailored for timeless living.</p>
+            </div>
+            <div class="pillar-item delay-3 reveal">
+              <div class="pillar-num">03</div>
+              <h3 class="pillar-title" data-i18n="pillar3Title">CGI Visualization</h3>
+              <p class="pillar-desc" data-i18n="pillar3Desc">Uncompromising photorealistic architectural imagery and animations.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SELECTED PROJECTS SECTION (EDITORIAL ASYMMETRIC GRID - 8 CARDS)
+       ========================================================================= -->
+  <section id="projects" class="projects-section">
+    <div class="container">
+      
+      <div class="section-header-row reveal">
+        <div>
+          <span class="section-eyebrow" data-i18n="projEyebrow">Portfolio Highlights</span>
+          <h2 class="section-heading" data-i18n="projHeading">Selected Architectural Works</h2>
+        </div>
+        <p class="section-desc" style="max-width: 420px; margin-bottom: 0;" data-i18n="projSub">
+          A curated preview of our latest design explorations and built environments.
+        </p>
+      </div>
+
+      <!-- Asymmetric 8-Card Editorial Layout -->
+      <div class="projects-editorial-grid">
+
+        <!-- Card 1 (Span 7) -->
+        <div class="project-card span-7 reveal">
+          <div class="project-img-box">
+            <img src="assets/images/project_1.jpg" alt="Azure Horizon Penthouse" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p1Cat">Luxury Interior / Monaco</span>
+                <h3 class="project-name" data-i18n="p1Name">Azure Horizon Penthouse</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 (Span 5) -->
+        <div class="project-card span-5 reveal delay-1">
+          <div class="project-img-box">
+            <img src="assets/images/project_2.jpg" alt="Solis Desert Pavilion" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p2Cat">Architecture / Dubai</span>
+                <h3 class="project-name" data-i18n="p2Name">Solis Desert Pavilion</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 (Span 4) -->
+        <div class="project-card span-4 reveal">
+          <div class="project-img-box">
+            <img src="assets/images/project_3.jpg" alt="Lapis Marble Residence" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p3Cat">Residential Interior / London</span>
+                <h3 class="project-name" data-i18n="p3Name">Lapis Marble Residence</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 (Span 8) -->
+        <div class="project-card span-8 reveal delay-1">
+          <div class="project-img-box">
+            <img src="assets/images/project_4.jpg" alt="Aurora Parametric Tower" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p4Cat">Commercial Architecture / Riyadh</span>
+                <h3 class="project-name" data-i18n="p4Name">Aurora Parametric Tower</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 (Span 6) -->
+        <div class="project-card span-6 reveal">
+          <div class="project-img-box">
+            <img src="assets/images/project_5.jpg" alt="Serene Courtyard Atrium" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p5Cat">Zen Sanctuary / Kyoto</span>
+                <h3 class="project-name" data-i18n="p5Name">Serene Courtyard Atrium</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 (Span 6) -->
+        <div class="project-card span-6 reveal delay-1">
+          <div class="project-img-box">
+            <img src="assets/images/project_6.jpg" alt="Aethel Executive Lounge" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p6Cat">Hospitality Design / Zurich</span>
+                <h3 class="project-name" data-i18n="p6Name">Aethel Executive Lounge</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7 (Span 7) -->
+        <div class="project-card span-7 reveal">
+          <div class="project-img-box">
+            <img src="assets/images/project_7.jpg" alt="Monolith Cliff Villa" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p7Cat">Coastal Architecture / Mallorca</span>
+                <h3 class="project-name" data-i18n="p7Name">Monolith Cliff Villa</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8 (Span 5) -->
+        <div class="project-card span-5 reveal delay-1">
+          <div class="project-img-box">
+            <img src="assets/images/project_8.jpg" alt="Celeste Master Suite" loading="lazy" />
+            <div class="project-overlay"></div>
+            <div class="project-meta-box">
+              <div>
+                <span class="project-cat" data-i18n="p8Cat">Minimalist Interior / Milan</span>
+                <h3 class="project-name" data-i18n="p8Name">Celeste Master Suite</h3>
+              </div>
+              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       RFQ & CONTACT SECTION
+       ========================================================================= -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="contact-layout">
+        
+        <!-- Left: Heading & Direct Channels -->
+        <div class="contact-info-panel reveal-left">
+          <span class="section-eyebrow" data-i18n="rfqEyebrow">Inquire</span>
+          <h2 class="section-heading" data-i18n="rfqHeading">Request for Quotation</h2>
+          <p class="section-desc" data-i18n="rfqDesc">
+            We invite property owners, visionary developers, and leading contracting companies to discuss bespoke architectural and visualization commissions.
+          </p>
+
+          <!-- Direct Channels -->
+          <div class="direct-channels">
+            
+            <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="channel-item">
+              <div class="channel-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </div>
+              <div>
+                <span class="channel-label">Instagram</span>
+                <div class="channel-val" data-i18n="chanInstagram">Instagram Portfolio</div>
+              </div>
+            </a>
+
+            <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="channel-item">
+              <div class="channel-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </div>
+              <div>
+                <span class="channel-label">Facebook</span>
+                <div class="channel-val" data-i18n="chanFacebook">Facebook Community</div>
+              </div>
+            </a>
+
+            <a href="https://wa.me/201000000000" target="_blank" rel="noopener" class="channel-item">
+              <div class="channel-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </div>
+              <div>
+                <span class="channel-label">WhatsApp</span>
+                <div class="channel-val" data-i18n="chanWhatsapp">Direct WhatsApp Chat</div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Right: RFQ Form Card -->
+        <div class="rfq-card reveal-right">
+          <form id="rfq-form">
+            <div class="rfq-form-grid">
+              
+              <!-- Name -->
+              <div class="form-group">
+                <label for="rfq-name" class="form-label" data-i18n="rfqNameLabel">Full Name *</label>
+                <input type="text" id="rfq-name" name="name" class="form-input" required data-i18n-placeholder="rfqNamePlaceholder" placeholder="e.g. Alexander Vance" />
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label for="rfq-email" class="form-label" data-i18n="rfqEmailLabel">Email Address *</label>
+                <input type="email" id="rfq-email" name="email" class="form-input" required data-i18n-placeholder="rfqEmailPlaceholder" placeholder="alexander@example.com" />
+              </div>
+
+              <!-- Phone -->
+              <div class="form-group">
+                <label for="rfq-phone" class="form-label" data-i18n="rfqPhoneLabel">Phone / WhatsApp</label>
+                <input type="tel" id="rfq-phone" name="phone" class="form-input" data-i18n-placeholder="rfqPhonePlaceholder" placeholder="+1 (555) 000-0000" />
+              </div>
+
+              <!-- Client Type Selector -->
+              <div class="form-group">
+                <label for="rfq-type" class="form-label" data-i18n="rfqTypeLabel">I am a *</label>
+                <select id="rfq-type" name="clientType" class="form-select" required>
+                  <option value="Property Owner" data-i18n="rfqTypeOpt1">Property Owner / Private Client</option>
+                  <option value="Real Estate Developer" data-i18n="rfqTypeOpt2">Real Estate Developer</option>
+                  <option value="Contracting Company" data-i18n="rfqTypeOpt3">Contracting Company / Studio Partner</option>
+                </select>
+              </div>
+
+              <!-- Project Brief -->
+              <div class="form-group full-width">
+                <label for="rfq-brief" class="form-label" data-i18n="rfqBriefLabel">Project Brief / Inquiry *</label>
+                <textarea id="rfq-brief" name="brief" class="form-textarea" required data-i18n-placeholder="rfqBriefPlaceholder" placeholder="Tell us about your project location, scope, and timeline..."></textarea>
+              </div>
+
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="rfq-submit-btn" class="btn-primary btn-gold" style="width: 100%; margin-top: 1.5rem; justify-content: center;">
+              <span data-i18n="rfqSubmitBtn">Submit Quotation Request</span>
+            </button>
+
+            <!-- Status Message Feedback -->
+            <div id="rfq-status-msg" class="form-status-msg"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      
+      <div class="footer-top">
+        <div class="brand-wordmark">
+          <span class="brand-name">AZURA</span>
+          <span class="brand-sub">STUDIO</span>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;" data-i18n="footerTagline">
+          Spaces Inspired by a Brighter Tomorrow.
+        </p>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Azura Studio. <span data-i18n="footerRights">All rights reserved.</span>
+        </div>
+        <div>
+          Architecture &middot; Interior &middot; Visualization
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Modules -->
+  <script src="assets/js/particles.js"></script>
+  <script src="assets/js/hero-slider.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <script src="assets/js/rfq.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

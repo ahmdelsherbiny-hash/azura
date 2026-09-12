@@ -18,7 +18,7 @@ const AzuraAnalytics = (function () {
 
   // Configuration
   const CONFIG = {
-    endpoint: window.AZURA_CONFIG?.ANALYTICS_ENDPOINT || 'https://azura-backend.ahmed-elsherbiny.workers.dev/api/analytics/batch',
+    endpoint: window.AZURA_CONFIG?.ANALYTICS_ENDPOINT || 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/analytics/batch',
     flushIntervalMs: 30000, // Flush every 30 seconds
     maxBatchSize: 8,        // Flush immediately when 8 events accumulate
     maxQueueCap: 50         // Safety ceiling

@@ -16,7 +16,7 @@
 
   if (!form) return;
 
-  const RFQ_ENDPOINT = window.AZURA_CONFIG?.RFQ_ENDPOINT || 'https://azura-backend.ahmed-elsherbiny.workers.dev/api/rfq';
+  const RFQ_ENDPOINT = window.AZURA_CONFIG?.RFQ_ENDPOINT || 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/rfq';
   let hasStartedRfq = false;
 
   // Track RFQ Start on first interaction without capturing sensitive input

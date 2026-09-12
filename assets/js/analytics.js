@@ -6,6 +6,7 @@
  * 
  * Features:
  * - Anonymous persistent Session ID (sessionStorage)
+ * - Automatic Device Detection (Mobile, Desktop, Tablet, OS)
  * - In-memory event queue
  * - Configurable flush thresholds: queue size >= 8 or every 30 seconds
  * - Page unload flush via navigator.sendBeacon() / fetch(..., { keepalive: true })
@@ -43,7 +44,37 @@ const AzuraAnalytics = (function () {
     }
   }
 
+  // Helper: Detect Device Type (Mobile / Desktop / Tablet) & OS
+  function getDeviceInfo() {
+    try {
+      const ua = navigator.userAgent || '';
+      let type = 'Desktop';
+
+      if (/iPad|Tablet|PlayBook/i.test(ua) || (navigator.maxTouchPoints > 1 && window.innerWidth >= 768 && window.innerWidth <= 1024)) {
+        type = 'Tablet';
+      } else if (/Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || window.innerWidth < 768) {
+        type = 'Mobile';
+      }
+
+      let os = 'Unknown OS';
+      if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+      else if (/Android/i.test(ua)) os = 'Android';
+      else if (/Windows/i.test(ua)) os = 'Windows';
+      else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
+      else if (/Linux/i.test(ua)) os = 'Linux';
+
+      return {
+        type: type,
+        os: os,
+        screen: `${window.innerWidth}x${window.innerHeight}`
+      };
+    } catch {
+      return { type: 'Desktop', os: 'Unknown', screen: 'Desktop' };
+    }
+  }
+
   const sessionId = getSessionId();
+  const deviceInfo = getDeviceInfo();
 
   /**
    * Public function to queue an analytics event
@@ -60,6 +91,9 @@ const AzuraAnalytics = (function () {
       section: details.section || details.sectionId || 'none',
       project: details.project || details.projectName || 'none',
       metadata: {
+        device: deviceInfo.type,
+        os: deviceInfo.os,
+        screen: deviceInfo.screen,
         lang: document.documentElement.getAttribute('lang') || 'en',
         theme: document.documentElement.getAttribute('data-theme') || 'dark',
         durationSec: Math.floor((Date.now() - sessionStartTime) / 1000),
@@ -67,7 +101,7 @@ const AzuraAnalytics = (function () {
       }
     };
 
-    // If extra parameters were passed outside metadata, merge them
+    // Merge any loose parameters
     for (const key of Object.keys(details)) {
       if (!['section', 'sectionId', 'project', 'projectName', 'metadata'].includes(key)) {
         eventRecord.metadata[key] = details[key];
@@ -111,9 +145,7 @@ const AzuraAnalytics = (function () {
           const blob = new Blob([payloadString], { type: 'application/json' });
           const sent = navigator.sendBeacon(CONFIG.endpoint, blob);
           if (sent) return;
-        } catch {
-          // Fallback to fetch keepalive below
-        }
+        } catch {}
       }
 
       try {
@@ -135,12 +167,10 @@ const AzuraAnalytics = (function () {
     })
     .then((res) => {
       if (!res.ok) {
-        // On server error, re-queue unsent events (up to max queue cap)
         eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
       }
     })
     .catch(() => {
-      // On network failure, preserve events in queue for next cycle
       eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
     });
   }
@@ -157,11 +187,12 @@ const AzuraAnalytics = (function () {
   function init() {
     startInterval();
 
-    // 1. Initial Session Start
+    // 1. Initial Session Start with Device Telemetry
     trackEvent('session_start', {
       metadata: {
         referrer: document.referrer || 'direct',
-        screen: `${window.innerWidth}x${window.innerHeight}`
+        device: deviceInfo.type,
+        os: deviceInfo.os
       }
     });
 
@@ -206,7 +237,7 @@ const AzuraAnalytics = (function () {
       }
     });
 
-    // 4. Page Visibility & Unload Flush (No polling)
+    // 4. Page Visibility & Unload Flush
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         flushQueue(true);
@@ -232,7 +263,8 @@ const AzuraAnalytics = (function () {
   return {
     track: trackEvent,
     flush: () => flushQueue(false),
-    getSessionId: () => sessionId
+    getSessionId: () => sessionId,
+    getDeviceInfo: () => deviceInfo
   };
 })();
 

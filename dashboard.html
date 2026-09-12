@@ -269,10 +269,10 @@
         </div>
 
         <div class="p-3.5 rounded-lg bg-azura-surface/60 border border-slate-800 flex items-start gap-3">
-          <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0"></i>
+          <i data-lucide="smartphone" class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0"></i>
           <div>
-            <h4 class="font-semibold text-white mb-0.5">Funnel Velocity & Drop-off</h4>
-            <p id="insight-funnel" class="text-xs text-slate-400">Evaluating session steps...</p>
+            <h4 class="font-semibold text-white mb-0.5">Primary Device & Platform</h4>
+            <p id="insight-device" class="text-xs text-slate-400">Analyzing device mix...</p>
           </div>
         </div>
       </div>
@@ -312,21 +312,44 @@
 
     </div>
 
-    <!-- CHARTS ROW 2: GEO LOCATIONS & CUSTOMER TYPES -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- CHARTS ROW 2: GEO LOCATIONS, DEVICES & CUSTOMER TYPES -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- Top Cities & Countries -->
       <div class="glass-card rounded-2xl p-6">
         <h3 class="text-base font-cinzel font-bold text-white flex items-center gap-2 mb-1">
           <i data-lucide="globe" class="w-4 h-4 text-azura-blueLight"></i>
-          Geographic Distribution (Cities & Countries)
+          Top Cities & Regions
         </h3>
-        <p class="text-xs text-slate-400 mb-4">Locations detected automatically via Cloudflare Edge</p>
+        <p class="text-xs text-slate-400 mb-4">Auto-detected via Cloudflare Edge</p>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-          <div id="chart-geo-donut" class="h-60 flex items-center justify-center"></div>
-          <div id="cities-ranked-list" class="space-y-2.5 max-h-60 overflow-y-auto pr-1 text-xs">
-            <div class="text-xs text-slate-500 py-8 text-center">Loading cities...</div>
+        <div id="chart-geo-donut" class="h-48 flex items-center justify-center"></div>
+        <div id="cities-ranked-list" class="space-y-2 max-h-36 overflow-y-auto pr-1 text-xs mt-3">
+          <div class="text-xs text-slate-500 py-4 text-center">Loading cities...</div>
+        </div>
+      </div>
+
+      <!-- Device Breakdown (Mobile vs Desktop vs Tablet) -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="text-base font-cinzel font-bold text-white flex items-center gap-2 mb-1">
+          <i data-lucide="laptop" class="w-4 h-4 text-azura-gold"></i>
+          Device Breakdown
+        </h3>
+        <p class="text-xs text-slate-400 mb-4">Phones vs Laptops vs Tablets</p>
+        
+        <div id="chart-devices" class="h-48 flex items-center justify-center"></div>
+        <div id="devices-summary" class="grid grid-cols-3 gap-2 text-center text-xs mt-3">
+          <div class="p-2 rounded bg-azura-surface/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Mobile</div>
+            <div id="dev-count-mobile" class="font-bold text-azura-gold mt-0.5">--</div>
+          </div>
+          <div class="p-2 rounded bg-azura-surface/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Desktop</div>
+            <div id="dev-count-desktop" class="font-bold text-azura-blueLight mt-0.5">--</div>
+          </div>
+          <div class="p-2 rounded bg-azura-surface/60 border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Tablet</div>
+            <div id="dev-count-tablet" class="font-bold text-emerald-400 mt-0.5">--</div>
           </div>
         </div>
       </div>
@@ -335,9 +358,9 @@
       <div class="glass-card rounded-2xl p-6">
         <h3 class="text-base font-cinzel font-bold text-white flex items-center gap-2 mb-1">
           <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
-          Client Segment Breakdown (RFQ Types)
+          Client Segments (RFQ)
         </h3>
-        <p class="text-xs text-slate-400 mb-4">Property Owners vs Developers vs Contractors</p>
+        <p class="text-xs text-slate-400 mb-4">Owners vs Developers vs Contractors</p>
         
         <div id="chart-customer-types" class="h-60 flex items-center justify-center"></div>
       </div>
@@ -345,7 +368,7 @@
     </div>
 
     <!-- =========================================================================
-         SESSIONS INTELLIGENCE LOG TABLE (Every Session with Duration, Geo, Projects & RFQ)
+         SESSIONS INTELLIGENCE LOG TABLE (Every Session with Duration, Device, Geo, Projects & RFQ)
          ========================================================================= -->
     <div class="glass-card rounded-2xl p-6">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -358,9 +381,9 @@
               Visitor Sessions Intelligence Log
             </h3>
           </div>
-          <p class="text-xs text-slate-400 mt-1">Detailed session breakdown: duration, location, projects viewed, and RFQ status</p>
+          <p class="text-xs text-slate-400 mt-1">Detailed session breakdown: device type, duration, location, projects viewed, and RFQ status</p>
         </div>
-        <input type="text" id="session-search" oninput="filterSessionsTable()" placeholder="Search by session, city, project..." class="px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
+        <input type="text" id="session-search" oninput="filterSessionsTable()" placeholder="Search by session, device, city, project..." class="px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
       </div>
 
       <div class="overflow-x-auto">
@@ -368,6 +391,7 @@
           <thead class="bg-azura-surface/80 uppercase tracking-wider text-[11px] text-azura-gold border-b border-azura-border">
             <tr>
               <th class="py-3 px-4">Session ID</th>
+              <th class="py-3 px-4">Device & OS</th>
               <th class="py-3 px-4">Location (City, Country)</th>
               <th class="py-3 px-4">Duration on Site</th>
               <th class="py-3 px-4">Projects Clicked</th>
@@ -378,7 +402,7 @@
           </thead>
           <tbody id="sessions-table-body" class="divide-y divide-slate-800/60">
             <tr>
-              <td colspan="7" class="py-8 text-center text-slate-500">Processing session logs...</td>
+              <td colspan="8" class="py-8 text-center text-slate-500">Processing session logs...</td>
             </tr>
           </tbody>
         </table>
@@ -441,19 +465,17 @@
 
     let areaChartInstance = null;
     let geoDonutChartInstance = null;
+    let devicesChartInstance = null;
     let customerChartInstance = null;
 
-    // Persistent Filter Storage
     let activeTimeFilter = localStorage.getItem('azura_dashboard_time_filter') || 'all';
     let customDateFrom = localStorage.getItem('azura_dashboard_custom_from') || '';
     let customDateTo = localStorage.getItem('azura_dashboard_custom_to') || '';
 
-    // Set Time Filter with Persistence
     function setTimeFilter(filterKey) {
       activeTimeFilter = filterKey;
       localStorage.setItem('azura_dashboard_time_filter', filterKey);
 
-      // Reset custom inputs if a preset was clicked
       if (filterKey !== 'custom') {
         const fromInput = document.getElementById('filter-date-from');
         const toInput = document.getElementById('filter-date-to');
@@ -534,11 +556,9 @@
     }
 
     function applyTimeFilterAndRender() {
-      // Filter datasets based on persistent timeframe
       currentFilteredRfq = rawRfqData.filter(r => isDateInRange(r.timestamp));
       currentFilteredAnalytics = rawAnalyticsData.filter(ev => isDateInRange(ev.timestamp));
 
-      // Update badge
       const badge = document.getElementById('filtered-records-badge');
       if (badge) {
         const labelsMap = {
@@ -548,7 +568,7 @@
           '7d': 'Last 7 Days',
           '30d': 'Last 30 Days',
           'month': 'This Month',
-          'custom': 'Custom Date Range'
+          'custom': 'Custom Range'
         };
         badge.textContent = `Filter: ${labelsMap[activeTimeFilter] || 'Active'} (${currentFilteredAnalytics.length} events)`;
       }
@@ -614,13 +634,13 @@
 
       if (rawAnalyticsData.length === 0) {
         rawAnalyticsData = [
-          { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 125, geo: { city: 'Al Mansurah', country: 'EG' } } },
-          { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 125, geo: { city: 'Al Mansurah', country: 'EG' } } },
-          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5400000).toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 210, geo: { city: 'Riyadh', country: 'SA' } } },
-          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5300000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 210, geo: { city: 'Riyadh', country: 'SA' } } },
-          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5200000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Coastal Penthouse Concept', metadata: { durationSec: 210, geo: { city: 'Riyadh', country: 'SA' } } },
-          { sessionId: 'azr_cairo_user_44', timestamp: new Date(Date.now() - 10800000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Azure Horizon Sanctuary', metadata: { durationSec: 45, geo: { city: 'Cairo', country: 'EG' } } },
-          { sessionId: 'azr_dubai_investor_9', timestamp: new Date(Date.now() - 14400000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 90, geo: { city: 'Dubai', country: 'AE' } } }
+          { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 125, device: 'Desktop', os: 'Windows', geo: { city: 'Al Mansurah', country: 'EG' } } },
+          { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 125, device: 'Desktop', os: 'Windows', geo: { city: 'Al Mansurah', country: 'EG' } } },
+          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5400000).toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 210, device: 'Mobile', os: 'iOS', geo: { city: 'Riyadh', country: 'SA' } } },
+          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5300000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 210, device: 'Mobile', os: 'iOS', geo: { city: 'Riyadh', country: 'SA' } } },
+          { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5200000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Coastal Penthouse Concept', metadata: { durationSec: 210, device: 'Mobile', os: 'iOS', geo: { city: 'Riyadh', country: 'SA' } } },
+          { sessionId: 'azr_cairo_user_44', timestamp: new Date(Date.now() - 10800000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Azure Horizon Sanctuary', metadata: { durationSec: 45, device: 'Mobile', os: 'Android', geo: { city: 'Cairo', country: 'EG' } } },
+          { sessionId: 'azr_dubai_investor_9', timestamp: new Date(Date.now() - 14400000).toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 90, device: 'Tablet', os: 'iPadOS', geo: { city: 'Dubai', country: 'AE' } } }
         ];
       }
     }
@@ -629,6 +649,7 @@
       const sessionsMap = new Map();
       const projectClicks = {};
       const citiesCount = {};
+      const devicesCount = { 'Mobile': 0, 'Desktop': 0, 'Tablet': 0 };
       let totalDuration = 0;
       let durationEntriesCount = 0;
 
@@ -636,16 +657,27 @@
       currentFilteredAnalytics.forEach(ev => {
         const sid = ev.sessionId || 'anonymous';
         if (!sessionsMap.has(sid)) {
+          const dev = ev.metadata?.device || (window.innerWidth < 768 ? 'Mobile' : 'Desktop');
+          const os = ev.metadata?.os || 'Unknown OS';
+
           sessionsMap.set(sid, {
             sessionId: sid,
             timestamp: ev.timestamp,
             duration: 0,
+            device: dev,
+            os: os,
             city: ev.metadata?.geo?.city || 'Unknown',
             country: ev.metadata?.geo?.country || 'Unknown',
             projects: new Set(),
             sections: new Set(),
             submittedRfq: false
           });
+
+          if (devicesCount[dev] !== undefined) {
+            devicesCount[dev]++;
+          } else {
+            devicesCount['Desktop']++;
+          }
         }
 
         const sess = sessionsMap.get(sid);
@@ -671,7 +703,7 @@
         }
       });
 
-      // Match RFQs with sessions or add RFQ locations
+      // Match RFQs
       currentFilteredRfq.forEach(rfq => {
         if (rfq.location && rfq.location !== 'Unknown') {
           citiesCount[rfq.location] = (citiesCount[rfq.location] || 0) + 2;
@@ -708,9 +740,10 @@
 
       // Render Sub-Views
       renderProjectsList(projectClicks);
-      renderSmartInsights(projectClicks, citiesCount, convRate, avgDuration);
+      renderSmartInsights(projectClicks, citiesCount, devicesCount, convRate, avgDuration);
       renderAreaChart(sessionsMap);
       renderGeoBreakdown(citiesCount);
+      renderDevicesBreakdown(devicesCount);
       renderCustomerTypes();
       renderSessionsTable(processedSessionsList);
       renderRfqTable(currentFilteredRfq);
@@ -745,9 +778,11 @@
       }).join('');
     }
 
-    function renderSmartInsights(projectClicks, citiesCount, convRate, avgDuration) {
+    function renderSmartInsights(projectClicks, citiesCount, devicesCount, convRate, avgDuration) {
       const topProject = Object.entries(projectClicks).sort((a,b) => b[1] - a[1])[0]?.[0] || 'Minimalist Desert Villa';
       const topGeo = Object.entries(citiesCount).sort((a,b) => b[1] - a[1])[0]?.[0] || 'Riyadh, Saudi Arabia';
+      const totalDevs = (devicesCount.Mobile + devicesCount.Desktop + devicesCount.Tablet) || 1;
+      const topDev = devicesCount.Mobile >= devicesCount.Desktop ? `Mobile Phones (${Math.round(devicesCount.Mobile/totalDevs*100)}%)` : `Desktop Laptops (${Math.round(devicesCount.Desktop/totalDevs*100)}%)`;
 
       document.getElementById('insight-top-project').innerHTML = `
         <span class="text-azura-gold font-semibold">${topProject}</span> is generating highest client inquiries & interaction.
@@ -755,8 +790,8 @@
       document.getElementById('insight-top-geo').innerHTML = `
         Dominant traffic hub: <span class="text-azura-blueLight font-semibold">${topGeo}</span>.
       `;
-      document.getElementById('insight-funnel').innerHTML = `
-        Conversion rate is <span class="text-emerald-400 font-semibold">${convRate}%</span> with <span class="text-white font-semibold">${avgDuration}s</span> average deep focus.
+      document.getElementById('insight-device').innerHTML = `
+        Primary channel: <span class="text-emerald-400 font-semibold">${topDev}</span>.
       `;
     }
 
@@ -843,7 +878,7 @@
       const options = {
         series: series.length > 0 ? series : [5, 3, 2],
         labels: labels.length > 0 ? labels : ['Riyadh (SA)', 'Cairo (EG)', 'Dubai (AE)'],
-        chart: { type: 'donut', height: 230, background: 'transparent' },
+        chart: { type: 'donut', height: 190, background: 'transparent' },
         colors: ['#dfcaa7', '#1e70a8', '#2bd9fe', '#9a7e53', '#64748b'],
         stroke: { show: false },
         legend: { show: false },
@@ -854,6 +889,34 @@
       if (geoDonutChartInstance) geoDonutChartInstance.destroy();
       geoDonutChartInstance = new ApexCharts(document.getElementById('chart-geo-donut'), options);
       geoDonutChartInstance.render();
+    }
+
+    function renderDevicesBreakdown(devicesCount) {
+      const mob = devicesCount.Mobile || 0;
+      const desk = devicesCount.Desktop || 0;
+      const tab = devicesCount.Tablet || 0;
+
+      document.getElementById('dev-count-mobile').textContent = mob;
+      document.getElementById('dev-count-desktop').textContent = desk;
+      document.getElementById('dev-count-tablet').textContent = tab;
+
+      const series = [mob, desk, tab];
+      const labels = ['Mobile Phones', 'Desktop Laptops', 'Tablets'];
+
+      const options = {
+        series: series.some(v => v > 0) ? series : [60, 35, 5],
+        labels: labels,
+        chart: { type: 'donut', height: 190, background: 'transparent' },
+        colors: ['#dfcaa7', '#1e70a8', '#34d399'],
+        stroke: { show: false },
+        legend: { show: false },
+        dataLabels: { enabled: false },
+        theme: { mode: 'dark' }
+      };
+
+      if (devicesChartInstance) devicesChartInstance.destroy();
+      devicesChartInstance = new ApexCharts(document.getElementById('chart-devices'), options);
+      devicesChartInstance.render();
     }
 
     function renderCustomerTypes() {
@@ -899,7 +962,7 @@
       if (!tbody) return;
 
       if (sessions.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">No session logs found in this timeframe.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-slate-500">No session logs found in this timeframe.</td></tr>';
         return;
       }
 
@@ -916,9 +979,27 @@
           ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"><i data-lucide="check-circle" class="w-3 h-3"></i> Yes (Lead)</span>`
           : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-400">No</span>`;
 
+        // Device Icon & Badge
+        let devIcon = 'laptop';
+        let devColor = 'text-azura-blueLight';
+        if (s.device === 'Mobile') {
+          devIcon = 'smartphone';
+          devColor = 'text-azura-gold';
+        } else if (s.device === 'Tablet') {
+          devIcon = 'tablet';
+          devColor = 'text-emerald-400';
+        }
+
         return `
           <tr class="hover:bg-azura-surface/70 transition-colors">
             <td class="py-3.5 px-4 font-mono font-bold text-azura-gold text-[11px]">${escapeHtml(s.sessionId)}</td>
+            <td class="py-3.5 px-4">
+              <div class="flex items-center gap-1.5 font-medium text-white">
+                <i data-lucide="${devIcon}" class="w-3.5 h-3.5 ${devColor}"></i>
+                <span>${escapeHtml(s.device)}</span>
+              </div>
+              <div class="text-slate-400 text-[10px]">${escapeHtml(s.os)}</div>
+            </td>
             <td class="py-3.5 px-4">
               <span class="flex items-center gap-1 text-slate-200 font-medium">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-azura-blueLight"></i>
@@ -957,6 +1038,8 @@
       const q = (document.getElementById('session-search')?.value || '').toLowerCase();
       const filtered = processedSessionsList.filter(s => 
         (s.sessionId || '').toLowerCase().includes(q) ||
+        (s.device || '').toLowerCase().includes(q) ||
+        (s.os || '').toLowerCase().includes(q) ||
         (s.city || '').toLowerCase().includes(q) ||
         (s.country || '').toLowerCase().includes(q) ||
         s.projectsArray.some(p => p.toLowerCase().includes(q)) ||
@@ -1022,7 +1105,6 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // Auto-init on page load
     document.addEventListener('DOMContentLoaded', () => {
       updateFilterButtonsUI();
       fetchDashboardData();

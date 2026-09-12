@@ -83,6 +83,26 @@
       font-weight: 600;
       box-shadow: 0 0 12px rgba(223, 202, 167, 0.2);
     }
+
+    #filter-drawer {
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.35s ease;
+      overflow: hidden;
+    }
+    #filter-drawer.drawer-closed {
+      max-height: 0px !important;
+      opacity: 0 !important;
+      transform: translateY(-8px);
+      pointer-events: none;
+      border-bottom-width: 0px !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    #filter-drawer.drawer-open {
+      max-height: 180px !important;
+      opacity: 1 !important;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body class="min-h-screen antialiased flex flex-col justify-between">
@@ -107,18 +127,21 @@
         </div>
       </div>
 
-      <!-- Sync Status & Controls -->
+      <!-- Controls & Filter Button (Replaced text with interactive Filter trigger) -->
       <div class="flex items-center gap-3">
-        <!-- Live Indicator -->
-        <div id="connection-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="status-text">Cloudflare & Sheets Connected</span>
-        </div>
+        
+        <!-- Toggle Filter Trigger Button -->
+        <button id="toggle-filter-btn" onclick="toggleFilterDrawer()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-azura-surface hover:bg-azura-card border border-azura-gold/30 text-azura-gold text-xs font-medium transition-all shadow hover:shadow-azura-gold/10">
+          <i data-lucide="filter" class="w-3.5 h-3.5 text-azura-gold"></i>
+          <span class="text-slate-300">Filter:</span>
+          <span id="active-filter-badge-text" class="font-semibold text-azura-gold">All Time</span>
+          <i data-lucide="chevron-down" id="filter-chevron" class="w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+        </button>
 
         <!-- Refresh Button -->
-        <button id="refresh-btn" onclick="fetchDashboardData()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-azura-surface hover:bg-azura-card border border-azura-gold/30 text-azura-gold text-xs font-medium transition-all shadow hover:shadow-azura-gold/10">
+        <button id="refresh-btn" onclick="fetchDashboardData()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-azura-surface hover:bg-azura-card border border-slate-700 hover:border-azura-gold/30 text-slate-300 hover:text-azura-gold text-xs font-medium transition-all">
           <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-          <span>Refresh Data</span>
+          <span>Refresh</span>
         </button>
 
         <!-- Direct Sheet Link -->
@@ -132,9 +155,9 @@
   </header>
 
   <!-- =========================================================================
-       PERSISTENT TIME FILTER CONTROLS BAR
+       COLLAPSIBLE PERSISTENT TIME FILTER DRAWER (Opens on button click, closes on scroll)
        ========================================================================= -->
-  <div class="border-b border-azura-border/60 bg-azura-surface/70 backdrop-blur-md sticky top-[61px] z-40">
+  <div id="filter-drawer" class="drawer-closed border-b border-azura-border/60 bg-azura-surface/95 backdrop-blur-md sticky top-[61px] z-40 shadow-2xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
       
       <!-- Timeframe Buttons Group -->
@@ -159,9 +182,9 @@
           <span class="text-slate-500">&rarr;</span>
           <input type="date" id="filter-date-to" onchange="setCustomDateFilter()" class="bg-transparent text-slate-200 border-none outline-none text-[11px] cursor-pointer" />
         </div>
-        <span id="filtered-records-badge" class="px-2.5 py-1 rounded bg-azura-gold/10 text-azura-gold border border-azura-gold/20 font-semibold text-[11px]">
-          All Records Active
-        </span>
+        <button onclick="closeFilterDrawer()" class="p-1 rounded hover:bg-azura-card text-slate-400 hover:text-white" title="Close filter">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
       </div>
 
     </div>
@@ -447,6 +470,44 @@
     let activeTimeFilter = localStorage.getItem('azura_dashboard_time_filter') || 'all';
     let customDateFrom = localStorage.getItem('azura_dashboard_custom_from') || '';
     let customDateTo = localStorage.getItem('azura_dashboard_custom_to') || '';
+    let isFilterDrawerOpen = false;
+
+    function toggleFilterDrawer() {
+      if (isFilterDrawerOpen) {
+        closeFilterDrawer();
+      } else {
+        openFilterDrawer();
+      }
+    }
+
+    function openFilterDrawer() {
+      const drawer = document.getElementById('filter-drawer');
+      const chevron = document.getElementById('filter-chevron');
+      if (drawer) {
+        drawer.classList.remove('drawer-closed');
+        drawer.classList.add('drawer-open');
+        isFilterDrawerOpen = true;
+      }
+      if (chevron) chevron.style.transform = 'rotate(180deg)';
+    }
+
+    function closeFilterDrawer() {
+      const drawer = document.getElementById('filter-drawer');
+      const chevron = document.getElementById('filter-chevron');
+      if (drawer) {
+        drawer.classList.remove('drawer-open');
+        drawer.classList.add('drawer-closed');
+        isFilterDrawerOpen = false;
+      }
+      if (chevron) chevron.style.transform = 'rotate(0deg)';
+    }
+
+    // Auto-close filter bar on scroll (Does NOT reopen automatically)
+    window.addEventListener('scroll', () => {
+      if (isFilterDrawerOpen && window.scrollY > 25) {
+        closeFilterDrawer();
+      }
+    }, { passive: true });
 
     function setTimeFilter(filterKey) {
       activeTimeFilter = filterKey;
@@ -485,6 +546,21 @@
       document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
       const activeBtn = document.getElementById(`btn-time-${activeTimeFilter}`);
       if (activeBtn) activeBtn.classList.add('active');
+
+      const labelsMap = {
+        'all': 'All Time',
+        'today': 'Today',
+        '24h': 'Last 24 Hours',
+        '7d': 'Last 7 Days',
+        '30d': 'Last 30 Days',
+        'month': 'This Month',
+        'custom': 'Custom Range'
+      };
+
+      const labelEl = document.getElementById('active-filter-badge-text');
+      if (labelEl) {
+        labelEl.textContent = labelsMap[activeTimeFilter] || 'Active';
+      }
 
       if (activeTimeFilter === 'custom') {
         const fromInput = document.getElementById('filter-date-from');
@@ -534,29 +610,12 @@
     function applyTimeFilterAndRender() {
       currentFilteredRfq = rawRfqData.filter(r => isDateInRange(r.timestamp));
       currentFilteredAnalytics = rawAnalyticsData.filter(ev => isDateInRange(ev.timestamp));
-
-      const badge = document.getElementById('filtered-records-badge');
-      if (badge) {
-        const labelsMap = {
-          'all': 'All Time',
-          'today': 'Today Only',
-          '24h': 'Last 24 Hours',
-          '7d': 'Last 7 Days',
-          '30d': 'Last 30 Days',
-          'month': 'This Month',
-          'custom': 'Custom Range'
-        };
-        badge.textContent = `Filter: ${labelsMap[activeTimeFilter] || 'Active'} (${currentFilteredAnalytics.length} events)`;
-      }
-
       renderDashboard();
     }
 
     async function fetchDashboardData() {
       const refreshIcon = document.getElementById('refresh-icon');
-      const statusText = document.getElementById('status-text');
       if (refreshIcon) refreshIcon.classList.add('animate-spin');
-      if (statusText) statusText.textContent = 'Syncing Google Sheets...';
 
       try {
         const res = await fetch(DASHBOARD_API_URL);
@@ -567,13 +626,11 @@
           rawRfqData = data.rfq || [];
           rawAnalyticsData = data.analytics || [];
           applyTimeFilterAndRender();
-          if (statusText) statusText.textContent = `Synced: ${new Date().toLocaleTimeString()}`;
         } else {
           throw new Error(data.error || 'Failed to fetch');
         }
       } catch (err) {
         console.warn('Live sync fallback:', err);
-        if (statusText) statusText.textContent = 'Using Live Local Cache';
         useSampleDataIfEmpty();
         applyTimeFilterAndRender();
       } finally {

@@ -75,6 +75,14 @@
     ::-webkit-scrollbar-track { background: #040910; }
     ::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #dfcaa7; }
+
+    .time-btn.active {
+      background: rgba(223, 202, 167, 0.2) !important;
+      border-color: #dfcaa7 !important;
+      color: #dfcaa7 !important;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(223, 202, 167, 0.2);
+    }
   </style>
 </head>
 <body class="min-h-screen antialiased flex flex-col justify-between">
@@ -124,6 +132,42 @@
   </header>
 
   <!-- =========================================================================
+       PERSISTENT TIME FILTER CONTROLS BAR
+       ========================================================================= -->
+  <div class="border-b border-azura-border/60 bg-azura-surface/70 backdrop-blur-md sticky top-[61px] z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Timeframe Buttons Group -->
+      <div class="flex items-center flex-wrap gap-1.5 text-xs">
+        <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mr-1.5 flex items-center gap-1">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-azura-gold"></i>
+          Time Range:
+        </span>
+        <button onclick="setTimeFilter('today')" id="btn-time-today" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all">Today</button>
+        <button onclick="setTimeFilter('24h')" id="btn-time-24h" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all">Last 24 Hours</button>
+        <button onclick="setTimeFilter('7d')" id="btn-time-7d" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all">Last 7 Days</button>
+        <button onclick="setTimeFilter('30d')" id="btn-time-30d" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all">Last 30 Days</button>
+        <button onclick="setTimeFilter('month')" id="btn-time-month" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all">This Month</button>
+        <button onclick="setTimeFilter('all')" id="btn-time-all" class="time-btn px-3 py-1 rounded-md border border-slate-700 text-slate-300 hover:bg-azura-card transition-all active">All Time</button>
+      </div>
+
+      <!-- Custom Date Pickers & Active Range Info -->
+      <div class="flex items-center gap-2 text-xs">
+        <div class="flex items-center gap-1.5 bg-azura-card/80 border border-slate-700/80 rounded-md px-2.5 py-1">
+          <span class="text-slate-400">Custom:</span>
+          <input type="date" id="filter-date-from" onchange="setCustomDateFilter()" class="bg-transparent text-slate-200 border-none outline-none text-[11px] cursor-pointer" />
+          <span class="text-slate-500">&rarr;</span>
+          <input type="date" id="filter-date-to" onchange="setCustomDateFilter()" class="bg-transparent text-slate-200 border-none outline-none text-[11px] cursor-pointer" />
+        </div>
+        <span id="filtered-records-badge" class="px-2.5 py-1 rounded bg-azura-gold/10 text-azura-gold border border-azura-gold/20 font-semibold text-[11px]">
+          All Records Active
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
        MAIN DASHBOARD CONTENT
        ========================================================================= -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
@@ -146,7 +190,7 @@
             <i data-lucide="trending-up" class="w-3 h-3 mr-0.5"></i> Sessions
           </span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2">Active telemetry sessions recorded</p>
+        <p class="text-[11px] text-slate-400 mt-2">Active telemetry sessions in range</p>
       </div>
 
       <!-- Card 2: RFQs Received -->
@@ -162,7 +206,7 @@
           <h3 id="kpi-rfqs" class="text-3xl font-bold font-cinzel text-azura-gold">--</h3>
           <span class="text-xs font-medium text-azura-gold/80 px-2 py-0.5 rounded bg-azura-gold/10 border border-azura-gold/20">Leads</span>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2">Verified client inquiries in Google Sheets</p>
+        <p class="text-[11px] text-slate-400 mt-2">Verified client inquiries in range</p>
       </div>
 
       <!-- Card 3: Conversion Rate -->
@@ -245,7 +289,7 @@
               <i data-lucide="activity" class="w-4 h-4 text-azura-gold"></i>
               Visitor Traffic & Session Duration (Area Chart)
             </h3>
-            <p class="text-xs text-slate-400">Timeline of user sessions and duration in seconds</p>
+            <p class="text-xs text-slate-400">Timeline of user sessions and duration in seconds within selected timeframe</p>
           </div>
         </div>
         <div id="chart-area-sessions" class="w-full h-72"></div>
@@ -389,12 +433,128 @@
   <script>
     const DASHBOARD_API_URL = 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/dashboard/data';
 
-    let allRfqData = [];
-    let allAnalyticsData = [];
+    let rawRfqData = [];
+    let rawAnalyticsData = [];
+    let currentFilteredRfq = [];
+    let currentFilteredAnalytics = [];
     let processedSessionsList = [];
+
     let areaChartInstance = null;
     let geoDonutChartInstance = null;
     let customerChartInstance = null;
+
+    // Persistent Filter Storage
+    let activeTimeFilter = localStorage.getItem('azura_dashboard_time_filter') || 'all';
+    let customDateFrom = localStorage.getItem('azura_dashboard_custom_from') || '';
+    let customDateTo = localStorage.getItem('azura_dashboard_custom_to') || '';
+
+    // Set Time Filter with Persistence
+    function setTimeFilter(filterKey) {
+      activeTimeFilter = filterKey;
+      localStorage.setItem('azura_dashboard_time_filter', filterKey);
+
+      // Reset custom inputs if a preset was clicked
+      if (filterKey !== 'custom') {
+        const fromInput = document.getElementById('filter-date-from');
+        const toInput = document.getElementById('filter-date-to');
+        if (fromInput) fromInput.value = '';
+        if (toInput) toInput.value = '';
+        localStorage.removeItem('azura_dashboard_custom_from');
+        localStorage.removeItem('azura_dashboard_custom_to');
+      }
+
+      updateFilterButtonsUI();
+      applyTimeFilterAndRender();
+    }
+
+    function setCustomDateFilter() {
+      const fromVal = document.getElementById('filter-date-from')?.value;
+      const toVal = document.getElementById('filter-date-to')?.value;
+
+      if (fromVal || toVal) {
+        activeTimeFilter = 'custom';
+        customDateFrom = fromVal || '';
+        customDateTo = toVal || '';
+        localStorage.setItem('azura_dashboard_time_filter', 'custom');
+        localStorage.setItem('azura_dashboard_custom_from', customDateFrom);
+        localStorage.setItem('azura_dashboard_custom_to', customDateTo);
+        updateFilterButtonsUI();
+        applyTimeFilterAndRender();
+      }
+    }
+
+    function updateFilterButtonsUI() {
+      document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-time-${activeTimeFilter}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (activeTimeFilter === 'custom') {
+        const fromInput = document.getElementById('filter-date-from');
+        const toInput = document.getElementById('filter-date-to');
+        if (fromInput && customDateFrom) fromInput.value = customDateFrom;
+        if (toInput && customDateTo) toInput.value = customDateTo;
+      }
+    }
+
+    function isDateInRange(dateStr) {
+      if (activeTimeFilter === 'all') return true;
+      if (!dateStr) return true;
+
+      const recordTime = new Date(dateStr).getTime();
+      if (isNaN(recordTime)) return true;
+
+      const now = Date.now();
+
+      switch (activeTimeFilter) {
+        case 'today': {
+          const startOfToday = new Date();
+          startOfToday.setHours(0, 0, 0, 0);
+          return recordTime >= startOfToday.getTime();
+        }
+        case '24h':
+          return recordTime >= (now - 24 * 60 * 60 * 1000);
+        case '7d':
+          return recordTime >= (now - 7 * 24 * 60 * 60 * 1000);
+        case '30d':
+          return recordTime >= (now - 30 * 24 * 60 * 60 * 1000);
+        case 'month': {
+          const startOfMonth = new Date();
+          startOfMonth.setDate(1);
+          startOfMonth.setHours(0, 0, 0, 0);
+          return recordTime >= startOfMonth.getTime();
+        }
+        case 'custom': {
+          let fromTime = customDateFrom ? new Date(customDateFrom).setHours(0, 0, 0, 0) : 0;
+          let toTime = customDateTo ? new Date(customDateTo).setHours(23, 59, 59, 999) : Infinity;
+          return recordTime >= fromTime && recordTime <= toTime;
+        }
+        default:
+          return true;
+      }
+    }
+
+    function applyTimeFilterAndRender() {
+      // Filter datasets based on persistent timeframe
+      currentFilteredRfq = rawRfqData.filter(r => isDateInRange(r.timestamp));
+      currentFilteredAnalytics = rawAnalyticsData.filter(ev => isDateInRange(ev.timestamp));
+
+      // Update badge
+      const badge = document.getElementById('filtered-records-badge');
+      if (badge) {
+        const labelsMap = {
+          'all': 'All Time',
+          'today': 'Today Only',
+          '24h': 'Last 24 Hours',
+          '7d': 'Last 7 Days',
+          '30d': 'Last 30 Days',
+          'month': 'This Month',
+          'custom': 'Custom Date Range'
+        };
+        badge.textContent = `Filter: ${labelsMap[activeTimeFilter] || 'Active'} (${currentFilteredAnalytics.length} events)`;
+      }
+
+      renderDashboard();
+    }
 
     async function fetchDashboardData() {
       const refreshIcon = document.getElementById('refresh-icon');
@@ -408,9 +568,9 @@
         const data = await res.json();
 
         if (data.success) {
-          allRfqData = data.rfq || [];
-          allAnalyticsData = data.analytics || [];
-          renderDashboard();
+          rawRfqData = data.rfq || [];
+          rawAnalyticsData = data.analytics || [];
+          applyTimeFilterAndRender();
           if (statusText) statusText.textContent = `Synced: ${new Date().toLocaleTimeString()}`;
         } else {
           throw new Error(data.error || 'Failed to fetch');
@@ -419,7 +579,7 @@
         console.warn('Live sync fallback:', err);
         if (statusText) statusText.textContent = 'Using Live Local Cache';
         useSampleDataIfEmpty();
-        renderDashboard();
+        applyTimeFilterAndRender();
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('animate-spin');
         lucide.createIcons();
@@ -427,8 +587,8 @@
     }
 
     function useSampleDataIfEmpty() {
-      if (allRfqData.length === 0) {
-        allRfqData = [
+      if (rawRfqData.length === 0) {
+        rawRfqData = [
           {
             submissionId: 'AZR-RFQ-MTXNU56O-7FI3',
             timestamp: new Date().toISOString(),
@@ -452,8 +612,8 @@
         ];
       }
 
-      if (allAnalyticsData.length === 0) {
-        allAnalyticsData = [
+      if (rawAnalyticsData.length === 0) {
+        rawAnalyticsData = [
           { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 125, geo: { city: 'Al Mansurah', country: 'EG' } } },
           { sessionId: 'azr_live_test_session', timestamp: new Date().toISOString(), type: 'project_click', page: '/', section: 'portfolio', project: 'Minimalist Desert Villa', metadata: { durationSec: 125, geo: { city: 'Al Mansurah', country: 'EG' } } },
           { sessionId: 'azr_w8q1p0a_m8v3z', timestamp: new Date(Date.now() - 5400000).toISOString(), type: 'session_start', page: '/', section: 'hero', project: 'none', metadata: { durationSec: 210, geo: { city: 'Riyadh', country: 'SA' } } },
@@ -472,8 +632,8 @@
       let totalDuration = 0;
       let durationEntriesCount = 0;
 
-      // Group Events by Session ID
-      allAnalyticsData.forEach(ev => {
+      // Group Filtered Events by Session ID
+      currentFilteredAnalytics.forEach(ev => {
         const sid = ev.sessionId || 'anonymous';
         if (!sessionsMap.has(sid)) {
           sessionsMap.set(sid, {
@@ -503,7 +663,6 @@
           sess.submittedRfq = true;
         }
 
-        // City detection
         const city = ev.metadata?.geo?.city;
         const country = ev.metadata?.geo?.country;
         if (city && city !== 'Unknown') {
@@ -513,13 +672,12 @@
       });
 
       // Match RFQs with sessions or add RFQ locations
-      allRfqData.forEach(rfq => {
+      currentFilteredRfq.forEach(rfq => {
         if (rfq.location && rfq.location !== 'Unknown') {
           citiesCount[rfq.location] = (citiesCount[rfq.location] || 0) + 2;
         }
       });
 
-      // Mark RFQ conversion flag
       sessionsMap.forEach(sess => {
         if (sess.duration > 0) {
           totalDuration += sess.duration;
@@ -527,10 +685,8 @@
         }
       });
 
-      // Convert sessionsMap to array
       processedSessionsList = Array.from(sessionsMap.values()).map((s, idx) => {
-        // If RFQ exists matching city/approx, tag conversion
-        const hasRfq = s.submittedRfq || idx < allRfqData.length;
+        const hasRfq = s.submittedRfq || idx < currentFilteredRfq.length;
         return {
           ...s,
           projectsArray: Array.from(s.projects),
@@ -539,8 +695,8 @@
         };
       });
 
-      const totalUniqueVisitors = Math.max(sessionsMap.size, allRfqData.length);
-      const totalRfqs = allRfqData.length;
+      const totalUniqueVisitors = Math.max(sessionsMap.size, currentFilteredRfq.length);
+      const totalRfqs = currentFilteredRfq.length;
       const convRate = totalUniqueVisitors > 0 ? ((totalRfqs / totalUniqueVisitors) * 100).toFixed(1) : 0;
       const avgDuration = durationEntriesCount > 0 ? Math.round(totalDuration / durationEntriesCount) : 65;
 
@@ -550,14 +706,14 @@
       document.getElementById('kpi-conversion').textContent = convRate + '%';
       document.getElementById('kpi-duration').textContent = avgDuration >= 60 ? `${Math.floor(avgDuration/60)}m ${avgDuration%60}s` : `${avgDuration}s`;
 
-      // Render Dashboard Components
+      // Render Sub-Views
       renderProjectsList(projectClicks);
       renderSmartInsights(projectClicks, citiesCount, convRate, avgDuration);
       renderAreaChart(sessionsMap);
       renderGeoBreakdown(citiesCount);
       renderCustomerTypes();
       renderSessionsTable(processedSessionsList);
-      renderRfqTable(allRfqData);
+      renderRfqTable(currentFilteredRfq);
     }
 
     function renderProjectsList(projectClicks) {
@@ -565,7 +721,7 @@
       const sorted = Object.entries(projectClicks).sort((a, b) => b[1] - a[1]);
 
       if (sorted.length === 0) {
-        listEl.innerHTML = '<div class="text-xs text-slate-500 py-6 text-center">No project interactions recorded yet.</div>';
+        listEl.innerHTML = '<div class="text-xs text-slate-500 py-6 text-center">No project interactions recorded in this timeframe.</div>';
         return;
       }
 
@@ -674,7 +830,7 @@
 
       const listEl = document.getElementById('cities-ranked-list');
       if (sorted.length === 0) {
-        listEl.innerHTML = '<div class="text-xs text-slate-500 py-6 text-center">No city data yet.</div>';
+        listEl.innerHTML = '<div class="text-xs text-slate-500 py-6 text-center">No city data in this timeframe.</div>';
       } else {
         listEl.innerHTML = sorted.map(([name, count]) => `
           <div class="flex items-center justify-between p-2 rounded bg-azura-surface/50 border border-slate-800">
@@ -708,7 +864,7 @@
         'Other': 0
       };
 
-      allRfqData.forEach(r => {
+      currentFilteredRfq.forEach(r => {
         const type = r.customerType || 'Other';
         if (typeCounts[type] !== undefined) {
           typeCounts[type]++;
@@ -717,7 +873,7 @@
         }
       });
 
-      if (allRfqData.length === 0) {
+      if (currentFilteredRfq.length === 0) {
         typeCounts['Property Owner'] = 4;
         typeCounts['Real Estate Developer'] = 6;
         typeCounts['Contracting Company'] = 2;
@@ -738,15 +894,12 @@
       customerChartInstance.render();
     }
 
-    // =========================================================================
-    // RENDER SESSIONS LOG TABLE (Row per Session with Duration, Geo, Projects, RFQ)
-    // =========================================================================
     function renderSessionsTable(sessions) {
       const tbody = document.getElementById('sessions-table-body');
       if (!tbody) return;
 
       if (sessions.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">No session logs recorded yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">No session logs found in this timeframe.</td></tr>';
         return;
       }
 
@@ -817,7 +970,7 @@
       if (!tbody) return;
 
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">No RFQ records received yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-500">No RFQ records in this timeframe.</td></tr>';
         return;
       }
 
@@ -854,7 +1007,7 @@
 
     function filterRfqTable() {
       const q = (document.getElementById('rfq-search')?.value || '').toLowerCase();
-      const filtered = allRfqData.filter(r => 
+      const filtered = currentFilteredRfq.filter(r => 
         (r.name || '').toLowerCase().includes(q) ||
         (r.email || '').toLowerCase().includes(q) ||
         (r.location || '').toLowerCase().includes(q) ||
@@ -869,7 +1022,9 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
+    // Auto-init on page load
     document.addEventListener('DOMContentLoaded', () => {
+      updateFilterButtonsUI();
       fetchDashboardData();
     });
   </script>

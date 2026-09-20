@@ -206,14 +206,14 @@ textarea:focus-visible {
 .brand-logo-link {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
   z-index: 110;
   text-decoration: none;
 }
 
 .brand-emblem-svg {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   flex-shrink: 0;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
@@ -231,9 +231,9 @@ textarea:focus-visible {
 
 .brand-name {
   font-family: var(--font-display);
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
+  font-size: 1.48rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
   background: linear-gradient(135deg, #fdf4e2 0%, #e2c89b 30%, #c5a880 65%, #9a7b4f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -244,9 +244,9 @@ textarea:focus-visible {
 
 .brand-sub {
   font-family: var(--font-body);
-  font-size: 0.64rem;
-  font-weight: 600;
-  letter-spacing: 0.44em;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.54em;
   text-transform: uppercase;
   color: var(--text-secondary);
   margin-top: 5px;
@@ -1943,7 +1943,7 @@ textarea:focus-visible {
 }
 
 @media (max-width: 480px) {
-  .brand-wordmark {
+  .site-header .brand-wordmark {
     display: none;
   }
 

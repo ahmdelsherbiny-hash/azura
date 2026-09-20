@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64">
+  <defs>
+    <!-- Background Luxury Dark Midnight Radial -->
+    <radialGradient id="favBgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0e1e32" />
+      <stop offset="70%" stop-color="#060c16" />
+      <stop offset="100%" stop-color="#02050a" />
+    </radialGradient>
+
+    <!-- Metallic Gold Luxury Gradient -->
+    <linearGradient id="favGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff4db" />
+      <stop offset="25%" stop-color="#e8cd9c" />
+      <stop offset="55%" stop-color="#cba972" />
+      <stop offset="85%" stop-color="#9d7a42" />
+      <stop offset="100%" stop-color="#694e24" />
+    </linearGradient>
+
+    <!-- Darker Bevel Gold -->
+    <linearGradient id="favGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0ca9f" />
+      <stop offset="100%" stop-color="#553a16" />
+    </linearGradient>
+
+    <!-- Deep Lapis Lazuli Luxury Blue Gradient -->
+    <linearGradient id="favLapisBlue" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#246a9e" />
+      <stop offset="35%" stop-color="#144670" />
+      <stop offset="70%" stop-color="#0c2d4a" />
+      <stop offset="100%" stop-color="#051626" />
+    </linearGradient>
+
+    <!-- Facet Light Sapphire for Diamond Star -->
+    <linearGradient id="favStarFacetLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60cdff" />
+      <stop offset="100%" stop-color="#186eb0" />
+    </linearGradient>
+    <linearGradient id="favStarFacetDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#104975" />
+      <stop offset="100%" stop-color="#061e33" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="favShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+  </defs>
+
+  <!-- Luxury Circular Base Badge -->
+  <circle cx="50" cy="50" r="48" fill="url(#favBgGrad)" stroke="url(#favGoldGrad)" stroke-width="2.2" />
+  <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="0.8" />
+
+  <!-- Azura Architectural 'A' + Blue Diamond Star Emblem -->
+  <g filter="url(#favShadow)">
+    <!-- Left Leg of 'A' -->
+    <path d="M 50,10 L 12,82 L 28,82 L 50,38 Z" fill="url(#favLapisBlue)" stroke="url(#favGoldGrad)" stroke-width="2" stroke-linejoin="round" />
+
+    <!-- Right Leg of 'A' -->
+    <path d="M 50,10 L 88,82 L 72,82 L 50,38 Z" fill="url(#favLapisBlue)" stroke="url(#favGoldGrad)" stroke-width="2" stroke-linejoin="round" />
+
+    <!-- Top Apex Gold Cap -->
+    <polygon points="50,10 44,20 50,24 56,20" fill="url(#favGoldGrad)" stroke="url(#favGoldDark)" stroke-width="0.6" />
+
+    <!-- Sweeping Golden Arch (Crossbar) -->
+    <path d="M 14,66 C 26,44 74,44 92,74 C 75,51 28,51 14,66 Z" fill="url(#favGoldGrad)" stroke="url(#favGoldDark)" stroke-width="0.9" />
+
+    <!-- Vertical Golden Needle / Spire -->
+    <line x1="50" y1="34" x2="50" y2="88" stroke="url(#favGoldGrad)" stroke-width="2.2" stroke-linecap="round" />
+
+    <!-- 4-Point Faceted Diamond Star -->
+    <!-- Top-Left Facet -->
+    <polygon points="50,62 50,47 37,62" fill="url(#favStarFacetLight)" stroke="url(#favGoldGrad)" stroke-width="0.9" />
+    <!-- Top-Right Facet -->
+    <polygon points="50,62 50,47 63,62" fill="url(#favStarFacetLight)" stroke="url(#favGoldGrad)" stroke-width="0.9" opacity="0.9" />
+    <!-- Bottom-Left Facet -->
+    <polygon points="50,62 37,62 50,77" fill="url(#favStarFacetDark)" stroke="url(#favGoldGrad)" stroke-width="0.9" />
+    <!-- Bottom-Right Facet -->
+    <polygon points="50,62 63,62 50,77" fill="url(#favStarFacetDark)" stroke="url(#favGoldGrad)" stroke-width="0.9" opacity="0.9" />
+
+    <!-- Center Sparkling Core Diamond Dot -->
+    <circle cx="50" cy="62" r="2.2" fill="#ffffff" />
+    <circle cx="50" cy="62" r="4" fill="rgba(56, 189, 248, 0.5)" />
+  </g>
+</svg>

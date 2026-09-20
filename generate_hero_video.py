@@ -31,10 +31,10 @@ def create_hero_video(render_path, sketch_path, output_path, duration=10, fps=30
             
         t = f / total_frames # 0.0 to 1.0
         
-        # Smooth sinusoidal back-and-forth oscillation: starts at left, goes to right, returns to left
-        # sin(t * 2*pi - pi/2) goes from -1 to 1 to -1. Rescaled to 0.08 .. 0.92
-        osc = (math.sin(t * 2 * math.pi - math.pi / 2) + 1.0) / 2.0
-        sweep_x = int(0.06 * width + osc * (0.88 * width))
+        # Smooth oscillation starting strictly at left edge (0.0 = 100% sketch)
+        # Cosine curve: (1 - cos(2*pi*t)) / 2 starts at 0.0, reaches 1.0 at t=0.5, returns to 0.0 at t=1.0
+        osc = (1.0 - math.cos(t * 2 * math.pi)) / 2.0
+        sweep_x = int(osc * width)
         
         # Slow cinematic subtle camera pan (Ken Burns drift: 1.0 to 1.04)
         zoom = 1.0 + 0.035 * math.sin(t * 2 * math.pi)

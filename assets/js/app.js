@@ -45,7 +45,7 @@ const I18N_DICTIONARY = {
     projEyebrow: 'Portfolio Highlights',
     projHeading: 'Selected Architectural Works',
     projSub: 'A curated preview of our latest design explorations and built environments.',
-    btnExplore: 'Explore',
+    btnExplore: 'Explore Project',
 
     // Project Titles & Categories
     p1Name: 'Azure Horizon Penthouse',
@@ -123,7 +123,7 @@ const I18N_DICTIONARY = {
     projEyebrow: 'أبرز الأعمال',
     projHeading: 'مشاريع معمارية مختارة',
     projSub: 'مقتطفات مختارة تعكس أحدث رؤانا وتصاميمنا المنفذة.',
-    btnExplore: 'استكشاف',
+    btnExplore: 'استكشاف المشروع',
 
     // Project Titles & Categories
     p1Name: 'بنتهاوس أفق أزورا',
@@ -235,6 +235,11 @@ const I18N_DICTIONARY = {
     // Refresh Hero Slider layout if needed
     if (window.refreshHeroSlider) {
       window.refreshHeroSlider();
+    }
+
+    // Refresh Voyage 3D Slider layout
+    if (window.refreshVoyageSlider) {
+      window.refreshVoyageSlider();
     }
 
     if (window.AzuraAnalytics) {

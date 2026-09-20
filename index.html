@@ -7,7 +7,9 @@
   <meta name="description" content="Azura Studio creates luxury architectural, interior, and photorealistic visualization sanctuaries. Spaces inspired by a brighter tomorrow." />
 
   <!-- Favicon / Social Meta -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,10 90,50 50,90 10,50' fill='%231e70a8'/><polygon points='50,25 75,50 50,75 25,50' fill='%23dfcaa7'/></svg>" />
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link rel="alternate icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
   <meta property="og:title" content="Azura Studio — Architecture & Visualization" />
   <meta property="og:description" content="Spaces inspired by a brighter tomorrow." />
   <meta property="og:type" content="website" />
@@ -31,24 +33,72 @@
       <a href="#hero" class="brand-logo-link" aria-label="Azura Studio Home">
         <svg class="brand-emblem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="logoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <!-- Metallic Gold Luxury Gradient -->
+            <linearGradient id="azuraGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fdf4e2" />
+              <stop offset="25%" stop-color="#e2c89b" />
+              <stop offset="55%" stop-color="#c5a880" />
+              <stop offset="85%" stop-color="#9a7b4f" />
+              <stop offset="100%" stop-color="#69512d" />
+            </linearGradient>
+
+            <!-- Darker Bevel Gold -->
+            <linearGradient id="azuraGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#dfcaa7" />
-              <stop offset="50%" stop-color="#c5a880" />
-              <stop offset="100%" stop-color="#8c734e" />
+              <stop offset="100%" stop-color="#5a411f" />
             </linearGradient>
-            <linearGradient id="logoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#1e70a8" />
-              <stop offset="50%" stop-color="#0f3456" />
-              <stop offset="100%" stop-color="#07192a" />
+
+            <!-- Deep Lapis Marble Blue Gradient -->
+            <linearGradient id="azuraLapisBlue" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#1e5a8a" />
+              <stop offset="40%" stop-color="#103657" />
+              <stop offset="80%" stop-color="#091f33" />
+              <stop offset="100%" stop-color="#040e18" />
             </linearGradient>
+
+            <!-- Facet Light Sapphire for Diamond Star -->
+            <linearGradient id="starFacetLight" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#155e96" />
+            </linearGradient>
+            <linearGradient id="starFacetDark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0f3c63" />
+              <stop offset="100%" stop-color="#061829" />
+            </linearGradient>
+
+            <!-- Drop Shadow for 3D realism -->
+            <filter id="emblemShadow" x="-10%" y="-10%" width="130%" height="130%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6" />
+            </filter>
           </defs>
-          <!-- 'A' Structure with Gold Bevel -->
-          <polygon points="50,12 84,84 68,84 50,44 32,84 16,84" fill="url(#logoBlue)" stroke="url(#logoGold)" stroke-width="2.5" />
-          <!-- Golden Arch Sweep -->
-          <path d="M 18,65 Q 50,38 82,65" fill="none" stroke="url(#logoGold)" stroke-width="3" stroke-linecap="round" />
-          <!-- Suspended Blue Diamond / Star -->
-          <line x1="50" y1="48" x2="50" y2="78" stroke="url(#logoGold)" stroke-width="1.5" />
-          <polygon points="50,56 59,67 50,78 41,67" fill="url(#logoBlue)" stroke="url(#logoGold)" stroke-width="1.5" />
+
+          <g filter="url(#emblemShadow)">
+            <!-- 'A' Architectural Frame (Marble Fill + Gold Bevel) -->
+            <!-- Left Leg -->
+            <path d="M 50,8 L 10,84 L 28,84 L 50,38 Z" fill="url(#azuraLapisBlue)" stroke="url(#azuraGoldGrad)" stroke-width="1.4" stroke-linejoin="round" />
+            <!-- Right Leg -->
+            <path d="M 50,8 L 90,84 L 72,84 L 50,38 Z" fill="url(#azuraLapisBlue)" stroke="url(#azuraGoldGrad)" stroke-width="1.4" stroke-linejoin="round" />
+            <!-- Apex Cap Bevel -->
+            <polygon points="50,8 45,18 50,22 55,18" fill="url(#azuraGoldGrad)" opacity="0.95" />
+
+            <!-- Sweeping Golden Arch (Crossbar) -->
+            <path d="M 12,68 C 26,44 74,44 94,76 C 76,52 28,52 12,68 Z" fill="url(#azuraGoldGrad)" stroke="url(#azuraGoldDark)" stroke-width="0.8" />
+
+            <!-- Vertical Golden Needle -->
+            <line x1="50" y1="34" x2="50" y2="88" stroke="url(#azuraGoldGrad)" stroke-width="1.8" stroke-linecap="round" />
+
+            <!-- 4-Point Faceted Star Diamond -->
+            <!-- Top-Left Facet -->
+            <polygon points="50,62 50,48 38,62" fill="url(#starFacetLight)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" />
+            <!-- Top-Right Facet -->
+            <polygon points="50,62 50,48 62,62" fill="url(#starFacetLight)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" opacity="0.85" />
+            <!-- Bottom-Left Facet -->
+            <polygon points="50,62 38,62 50,76" fill="url(#starFacetDark)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" />
+            <!-- Bottom-Right Facet -->
+            <polygon points="50,62 62,62 50,76" fill="url(#starFacetDark)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" opacity="0.9" />
+            <!-- Center Specular Dot -->
+            <circle cx="50" cy="62" r="1.5" fill="#ffffff" opacity="0.95" />
+          </g>
         </svg>
         <div class="brand-wordmark">
           <span class="brand-name">AZURA</span>
@@ -103,7 +153,7 @@
       
       <div id="hero-visual-wrapper" class="hero-visual-wrapper reveal-fade">
         <!-- Cinematic Looping Video -->
-        <video id="hero-cinematic-video" class="hero-video-media" autoplay loop muted playsinline poster="assets/images/hero_render.jpg">
+        <video id="hero-cinematic-video" class="hero-video-media" autoplay loop muted playsinline poster="assets/images/hero_sketch.jpg">
           <source src="assets/images/hero_cinematic.mp4" type="video/mp4" />
         </video>
 
@@ -129,7 +179,7 @@
   <section id="signature" class="signature-section">
     <div class="container">
       <div class="signature-grid">
-        
+
         <!-- Left: Studio Visual Frame -->
         <div class="signature-emblem-wrap reveal-left">
           <div class="signature-card-frame">
@@ -170,11 +220,24 @@
   </section>
 
   <!-- =========================================================================
-       SELECTED PROJECTS SECTION (EDITORIAL ASYMMETRIC GRID - 8 CARDS)
+       SELECTED PROJECTS SECTION (3D VOYAGE SLIDER EXPERIENCE)
        ========================================================================= -->
   <section id="projects" class="projects-section">
-    <div class="container">
+    <!-- Ambient Dynamic Background Stage -->
+    <div class="voyage-ambient-wrap">
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_1.jpg');" data-current></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_2.jpg');" data-next></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_3.jpg');" data-idle></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_4.jpg');" data-idle></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_5.jpg');" data-idle></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_6.jpg');" data-idle></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_7.jpg');" data-idle></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_8.jpg');" data-previous></div>
+    </div>
+
+    <div class="container voyage-section-container">
       
+      <!-- Section Header -->
       <div class="section-header-row reveal">
         <div>
           <span class="section-eyebrow" data-i18n="projEyebrow">Portfolio Highlights</span>
@@ -185,145 +248,460 @@
         </p>
       </div>
 
-      <!-- Asymmetric 8-Card Editorial Layout -->
-      <div class="projects-editorial-grid">
+      <!-- 3D Voyage Slider Container -->
+      <div class="voyage-slider-container reveal-fade">
 
-        <!-- Card 1 (Span 7) -->
-        <div class="project-card span-7 reveal">
-          <div class="project-img-box">
-            <img src="assets/images/project_1.jpg" alt="Azure Horizon Penthouse" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p1Cat">Luxury Interior / Monaco</span>
-                <h3 class="project-name" data-i18n="p1Name">Azure Horizon Penthouse</h3>
+        <!-- Navigation Prev Button -->
+        <button class="voyage-slider-btn voyage-btn-prev" aria-label="Previous Project">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <!-- Slides 3D Stage Wrapper -->
+        <div class="voyage-slides-wrapper">
+
+          <!-- Visual Slides Stack -->
+          <div class="voyage-slides">
+
+            <!-- Slide 1 -->
+            <div class="voyage-slide" data-current data-index="0">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_1.jpg" alt="Azure Horizon Penthouse" loading="eager" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
               </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
             </div>
+
+            <!-- Slide 2 -->
+            <div class="voyage-slide" data-next data-index="1">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_2.jpg" alt="Solis Desert Pavilion" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="voyage-slide" data-idle data-index="2">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_3.jpg" alt="Lapis Marble Residence" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="voyage-slide" data-idle data-index="3">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_4.jpg" alt="Aurora Parametric Tower" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="voyage-slide" data-idle data-index="4">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_5.jpg" alt="Serene Courtyard Atrium" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="voyage-slide" data-idle data-index="5">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_6.jpg" alt="Aethel Executive Lounge" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="voyage-slide" data-idle data-index="6">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_7.jpg" alt="Monolith Cliff Villa" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="voyage-slide" data-previous data-index="7">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_8.jpg" alt="Celeste Master Suite" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-ig" aria-label="Explore on Instagram" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://facebook.com/azura.studio" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
           </div>
+
+          <!-- Staggered Floating 3D Typography Layer -->
+          <div class="voyage-slides-infos">
+
+            <!-- Info 1 -->
+            <div class="voyage-slide-info" data-current>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p1Cat">Luxury Interior / Monaco</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p1Name">Azure Horizon Penthouse</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 2 -->
+            <div class="voyage-slide-info" data-next>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p2Cat">Architecture / Dubai</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p2Name">Solis Desert Pavilion</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 3 -->
+            <div class="voyage-slide-info" data-idle>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p3Cat">Residential Interior / London</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p3Name">Lapis Marble Residence</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 4 -->
+            <div class="voyage-slide-info" data-idle>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p4Cat">Commercial Architecture / Riyadh</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p4Name">Aurora Parametric Tower</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 5 -->
+            <div class="voyage-slide-info" data-idle>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p5Cat">Zen Sanctuary / Kyoto</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p5Name">Serene Courtyard Atrium</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 6 -->
+            <div class="voyage-slide-info" data-idle>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p6Cat">Hospitality Design / Zurich</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p6Name">Aethel Executive Lounge</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 7 -->
+            <div class="voyage-slide-info" data-idle>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p7Cat">Coastal Architecture / Mallorca</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p7Name">Monolith Cliff Villa</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 8 -->
+            <div class="voyage-slide-info" data-previous>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p8Cat">Minimalist Interior / Milan</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p8Name">Celeste Master Suite</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
-        <!-- Card 2 (Span 5) -->
-        <div class="project-card span-5 reveal delay-1">
-          <div class="project-img-box">
-            <img src="assets/images/project_2.jpg" alt="Solis Desert Pavilion" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p2Cat">Architecture / Dubai</span>
-                <h3 class="project-name" data-i18n="p2Name">Solis Desert Pavilion</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
+        <!-- Navigation Next Button -->
+        <button class="voyage-slider-btn voyage-btn-next" aria-label="Next Project">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </button>
 
-        <!-- Card 3 (Span 4) -->
-        <div class="project-card span-4 reveal">
-          <div class="project-img-box">
-            <img src="assets/images/project_3.jpg" alt="Lapis Marble Residence" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p3Cat">Residential Interior / London</span>
-                <h3 class="project-name" data-i18n="p3Name">Lapis Marble Residence</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
+      </div>
 
-        <!-- Card 4 (Span 8) -->
-        <div class="project-card span-8 reveal delay-1">
-          <div class="project-img-box">
-            <img src="assets/images/project_4.jpg" alt="Aurora Parametric Tower" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p4Cat">Commercial Architecture / Riyadh</span>
-                <h3 class="project-name" data-i18n="p4Name">Aurora Parametric Tower</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
+      <!-- Slider Footer Controls (Centered Dots Navigation) -->
+      <div class="voyage-controls-bar reveal">
+        <div class="voyage-dots-list">
+          <button class="voyage-dot active" aria-label="Go to slide 1"></button>
+          <button class="voyage-dot" aria-label="Go to slide 2"></button>
+          <button class="voyage-dot" aria-label="Go to slide 3"></button>
+          <button class="voyage-dot" aria-label="Go to slide 4"></button>
+          <button class="voyage-dot" aria-label="Go to slide 5"></button>
+          <button class="voyage-dot" aria-label="Go to slide 6"></button>
+          <button class="voyage-dot" aria-label="Go to slide 7"></button>
+          <button class="voyage-dot" aria-label="Go to slide 8"></button>
         </div>
-
-        <!-- Card 5 (Span 6) -->
-        <div class="project-card span-6 reveal">
-          <div class="project-img-box">
-            <img src="assets/images/project_5.jpg" alt="Serene Courtyard Atrium" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p5Cat">Zen Sanctuary / Kyoto</span>
-                <h3 class="project-name" data-i18n="p5Name">Serene Courtyard Atrium</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 6 (Span 6) -->
-        <div class="project-card span-6 reveal delay-1">
-          <div class="project-img-box">
-            <img src="assets/images/project_6.jpg" alt="Aethel Executive Lounge" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p6Cat">Hospitality Design / Zurich</span>
-                <h3 class="project-name" data-i18n="p6Name">Aethel Executive Lounge</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 7 (Span 7) -->
-        <div class="project-card span-7 reveal">
-          <div class="project-img-box">
-            <img src="assets/images/project_7.jpg" alt="Monolith Cliff Villa" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p7Cat">Coastal Architecture / Mallorca</span>
-                <h3 class="project-name" data-i18n="p7Name">Monolith Cliff Villa</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 8 (Span 5) -->
-        <div class="project-card span-5 reveal delay-1">
-          <div class="project-img-box">
-            <img src="assets/images/project_8.jpg" alt="Celeste Master Suite" loading="lazy" />
-            <div class="project-overlay"></div>
-            <div class="project-meta-box">
-              <div>
-                <span class="project-cat" data-i18n="p8Cat">Minimalist Interior / Milan</span>
-                <h3 class="project-name" data-i18n="p8Name">Celeste Master Suite</h3>
-              </div>
-              <a href="https://instagram.com/azura.studio" target="_blank" rel="noopener" class="btn-explore-project" aria-label="Explore Project on Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -442,10 +820,26 @@
     <div class="container">
       
       <div class="footer-top">
-        <div class="brand-wordmark">
-          <span class="brand-name">AZURA</span>
-          <span class="brand-sub">STUDIO</span>
-        </div>
+        <a href="#hero" class="brand-logo-link" aria-label="Azura Studio Home">
+          <svg class="brand-emblem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#emblemShadow)">
+              <path d="M 50,8 L 10,84 L 28,84 L 50,38 Z" fill="url(#azuraLapisBlue)" stroke="url(#azuraGoldGrad)" stroke-width="1.4" stroke-linejoin="round" />
+              <path d="M 50,8 L 90,84 L 72,84 L 50,38 Z" fill="url(#azuraLapisBlue)" stroke="url(#azuraGoldGrad)" stroke-width="1.4" stroke-linejoin="round" />
+              <polygon points="50,8 45,18 50,22 55,18" fill="url(#azuraGoldGrad)" opacity="0.95" />
+              <path d="M 12,68 C 26,44 74,44 94,76 C 76,52 28,52 12,68 Z" fill="url(#azuraGoldGrad)" stroke="url(#azuraGoldDark)" stroke-width="0.8" />
+              <line x1="50" y1="34" x2="50" y2="88" stroke="url(#azuraGoldGrad)" stroke-width="1.8" stroke-linecap="round" />
+              <polygon points="50,62 50,48 38,62" fill="url(#starFacetLight)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" />
+              <polygon points="50,62 50,48 62,62" fill="url(#starFacetLight)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" opacity="0.85" />
+              <polygon points="50,62 38,62 50,76" fill="url(#starFacetDark)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" />
+              <polygon points="50,62 62,62 50,76" fill="url(#starFacetDark)" stroke="url(#azuraGoldGrad)" stroke-width="0.8" opacity="0.9" />
+              <circle cx="50" cy="62" r="1.5" fill="#ffffff" opacity="0.95" />
+            </g>
+          </svg>
+          <div class="brand-wordmark">
+            <span class="brand-name">AZURA</span>
+            <span class="brand-sub">STUDIO</span>
+          </div>
+        </a>
         <p style="color: var(--text-secondary); font-size: 0.9rem;" data-i18n="footerTagline">
           Spaces Inspired by a Brighter Tomorrow.
         </p>
@@ -466,6 +860,7 @@
   <!-- Core JavaScript Modules -->
   <script src="assets/js/particles.js"></script>
   <script src="assets/js/hero-slider.js"></script>
+  <script src="assets/js/voyage-slider.js"></script>
   <script src="assets/js/analytics.js"></script>
   <script src="assets/js/rfq.js"></script>
   <script src="assets/js/app.js"></script>

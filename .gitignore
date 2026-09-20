@@ -1,0 +1,13 @@
+# Local secrets and credentials
+backend/azura-backend-*-google.json
+backend/azura resend api.txt
+.env
+.env.*
+!.env.example
+
+# Local deployment metadata
+.vercel/
+
+# Generated caches
+__pycache__/
+*.pyc

@@ -1639,55 +1639,66 @@ textarea:focus-visible {
 
   /* Responsive Voyage Slider for Mobile */
   :root {
-    --voyage-slide-width: min(calc(100vw - 2rem), 340px);
-    --voyage-transition-duration: 420ms;
+    --voyage-slide-width: min(82vw, 320px);
+    --voyage-transition-duration: 360ms;
   }
 
   .voyage-slider-container {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto 52px;
-    column-gap: 0.85rem;
-    row-gap: 1rem;
+    display: block;
     min-height: 0;
     max-width: 100%;
   }
 
   .voyage-slider-btn {
-    position: static;
+    position: absolute;
+    top: 52%;
     width: 44px;
     height: 44px;
-    transform: none;
+    transform: translateY(-50%);
   }
 
   .voyage-slider-btn:hover {
-    transform: none;
+    transform: translateY(-50%);
   }
 
   .voyage-slider-btn:active {
-    transform: scale(0.94);
+    transform: translateY(-50%) scale(0.94);
   }
 
   .voyage-btn-prev {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: end;
+    left: 0.25rem;
   }
 
   .voyage-btn-next {
-    grid-column: 2;
-    grid-row: 2;
-    justify-self: start;
+    right: 0.25rem;
   }
 
   .voyage-slides-wrapper {
-    grid-column: 1 / -1;
-    grid-row: 1;
     width: 100%;
-    height: clamp(450px, 138vw, 540px);
+    height: clamp(430px, 132vw, 520px);
     touch-action: pan-y pinch-zoom;
     overflow: hidden;
     perspective: none;
+    contain: layout paint;
+  }
+
+  .voyage-slide {
+    transform-style: flat;
+    perspective: none;
+    backface-visibility: hidden;
+    transform: translate3d(var(--slide-tx), var(--slide-ty), 0) scale(var(--slide-scale));
+    transition: transform var(--voyage-transition-duration) var(--voyage-transition-easing),
+                opacity var(--voyage-transition-duration) var(--voyage-transition-easing);
+  }
+
+  .voyage-slide[data-current],
+  .voyage-slide[data-next],
+  .voyage-slide[data-previous] {
+    will-change: transform, opacity;
+  }
+
+  .voyage-slide[data-idle] {
+    will-change: auto;
   }
 
   .voyage-info-text-wrap {
@@ -1699,18 +1710,60 @@ textarea:focus-visible {
 
   .voyage-slide[data-current] {
     --slide-scale: 1;
+    --slide-ty: 0px;
     --slide-tz: 0px;
+    opacity: 1;
   }
 
   .voyage-slide[data-next],
   .voyage-slide[data-previous] {
-    --slide-scale: 0.94;
-    --slide-tx: 0px;
+    --slide-scale: 0.86;
+    --slide-ty: 1.75rem;
     --slide-rotY: 0deg;
-    --slide-tz: -20px;
-    opacity: 0;
-    pointer-events: none;
+    --slide-tz: 0px;
+    opacity: 0.58;
+    pointer-events: auto;
     filter: none;
+  }
+
+  .voyage-slide[data-next] {
+    --slide-tx: calc(var(--voyage-slide-width) * 0.62);
+  }
+
+  .voyage-slide[data-previous] {
+    --slide-tx: calc(var(--voyage-slide-width) * -0.62);
+  }
+
+  [dir="rtl"] .voyage-slide[data-next] {
+    --slide-tx: calc(var(--voyage-slide-width) * -0.62);
+  }
+
+  [dir="rtl"] .voyage-slide[data-previous] {
+    --slide-tx: calc(var(--voyage-slide-width) * 0.62);
+  }
+
+  .voyage-slide-bg {
+    inset: -10%;
+    filter: blur(28px) brightness(0.2) saturate(1.25);
+    transform: none;
+    transition: opacity var(--voyage-transition-duration) ease;
+  }
+
+  [data-theme="light"] .voyage-slide-bg {
+    filter: blur(30px) brightness(0.94) saturate(1.05);
+  }
+
+  .voyage-slide-bg[data-current],
+  .voyage-slide-bg[data-previous],
+  .voyage-slide-bg[data-next] {
+    transform: none;
+  }
+
+  .voyage-info-text-wrap,
+  .voyage-slide-info[data-current] .voyage-info-text-wrap,
+  .voyage-slide-info:not([data-current]) .voyage-info-text-wrap {
+    transform: translate3d(0, 0, 0);
+    transition: opacity 220ms ease;
   }
 
   .voyage-card-actions,
@@ -1752,7 +1805,7 @@ textarea:focus-visible {
   }
 
   .voyage-controls-bar {
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     max-width: 100%;
     padding: 0.65rem 1rem;
   }
@@ -1843,7 +1896,7 @@ textarea:focus-visible {
 @media (max-width: 360px) {
   :root {
     --container-padding: 0.875rem;
-    --voyage-slide-width: min(calc(100vw - 1.75rem), 340px);
+    --voyage-slide-width: min(82vw, 320px);
   }
 
   .header-actions {

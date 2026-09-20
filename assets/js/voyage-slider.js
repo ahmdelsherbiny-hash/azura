@@ -26,7 +26,6 @@
       this.currentIndex = 0;
       this.isAnimating = false;
       this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      this.animationDuration = this.motionQuery.matches ? 0 : 750;
 
       // Mouse drag state
       this.isDragging = false;
@@ -49,20 +48,16 @@
       }
 
       // Initial state render
-      this.updateState(0, 0);
+      this.updateState(0);
 
       // Event listeners
       this.setupControls();
       this.setupMouseAndTouchDrag();
       this.setupKeyboard();
 
-      this.motionQuery.addEventListener('change', (event) => {
-        this.animationDuration = event.matches ? 0 : 750;
-      });
-
       // Export refresh function globally for language / window resize updates
       window.refreshVoyageSlider = () => {
-        this.updateState(this.currentIndex, 0);
+        this.updateState(this.currentIndex);
       };
     }
 
@@ -87,8 +82,7 @@
           e.preventDefault();
           e.stopPropagation();
           if (idx === this.currentIndex || this.isAnimating) return;
-          const dir = idx > this.currentIndex ? 1 : -1;
-          this.goTo(idx, dir);
+          this.goTo(idx);
         });
       });
 
@@ -121,15 +115,15 @@
       // In RTL, standard visual flow may invert next/prev
       const effectiveDir = isRTL ? -direction : direction;
       const newIndex = wrap(this.currentIndex + effectiveDir, this.total);
-      this.goTo(newIndex, effectiveDir);
+      this.goTo(newIndex);
     }
 
-    goTo(targetIndex, direction = 1) {
+    goTo(targetIndex) {
       if (this.isAnimating || targetIndex === this.currentIndex) return;
       this.isAnimating = true;
 
       this.currentIndex = targetIndex;
-      this.updateState(this.currentIndex, direction);
+      this.updateState(this.currentIndex);
 
       // Track analytics if available
       if (window.AzuraAnalytics) {
@@ -139,16 +133,24 @@
         });
       }
 
-      if (this.animationDuration === 0) {
+      const animationDuration = this.getAnimationDuration();
+      if (animationDuration === 0) {
         this.isAnimating = false;
       } else {
         setTimeout(() => {
           this.isAnimating = false;
-        }, this.animationDuration);
+        }, animationDuration);
       }
     }
 
-    updateState(currIdx, direction = 1) {
+    getAnimationDuration() {
+      if (this.motionQuery.matches) return 0;
+      const duration = getComputedStyle(this.container)
+        .getPropertyValue('--voyage-transition-duration');
+      return Number.parseFloat(duration) || 750;
+    }
+
+    updateState(currIdx) {
       const prevIdx = wrap(currIdx - 1, this.total);
       const nextIdx = wrap(currIdx + 1, this.total);
 
@@ -162,13 +164,13 @@
 
         if (idx === currIdx) {
           slide.setAttribute('data-current', '');
-          slide.style.zIndex = '20';
+          slide.style.zIndex = '30';
         } else if (idx === prevIdx) {
           slide.setAttribute('data-previous', '');
-          slide.style.zIndex = direction === -1 ? '30' : '10';
+          slide.style.zIndex = '10';
         } else if (idx === nextIdx) {
           slide.setAttribute('data-next', '');
-          slide.style.zIndex = direction === 1 ? '30' : '10';
+          slide.style.zIndex = '10';
         } else {
           slide.setAttribute('data-idle', '');
           slide.style.zIndex = '1';

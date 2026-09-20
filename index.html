@@ -15,7 +15,7 @@
   <meta property="og:type" content="website" />
 
   <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="assets/css/style.css?v=20260920-layered-carousel" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260920-about-founders" />
   <link rel="stylesheet" href="assets/css/animations.css" />
 </head>
 <body>
@@ -160,14 +160,8 @@
         <!-- Hardware-Accelerated Real-Time Stationary Laser Canvas Engine (Fallback & Interactive Mode) -->
         <canvas id="hero-laser-canvas" class="hero-canvas-media"></canvas>
 
-        <!-- Overlay Laser Beam Indicator & Glowing Scan Line -->
-        <div id="hero-laser-beam" class="hero-laser-beam">
-          <div class="laser-flare-top"></div>
-          <div class="laser-flare-center">
-            <span class="laser-diamond-icon"></span>
-          </div>
-          <div class="laser-flare-bottom"></div>
-        </div>
+        <!-- Subtle scan boundary -->
+        <div id="hero-laser-beam" class="hero-laser-beam"></div>
       </div>
 
     </div>
@@ -180,39 +174,35 @@
     <div class="container">
       <div class="signature-grid">
 
-        <!-- Left: Studio Visual Frame -->
+        <!-- Left: Founders Portraits -->
         <div class="signature-emblem-wrap reveal-left">
-          <div class="signature-card-frame">
-            <img src="assets/images/azura_logo_mockup.jpg" alt="Azura Studio Luxury Identity" loading="lazy" />
+          <div class="signature-card-frame signature-portrait-pair">
+            <figure class="signature-portrait">
+              <img src="assets/images/founder-ahmed.jpeg" alt="Ahmed Elsherbiny, Azura Studio co-founder" loading="lazy" />
+            </figure>
+            <figure class="signature-portrait">
+              <img src="assets/images/founder-cofounder.jpeg" alt="Azura Studio co-founder" loading="lazy" />
+            </figure>
           </div>
         </div>
 
-        <!-- Right: Studio Narrative & Pillars -->
+        <!-- Right: Studio Narrative -->
         <div class="signature-text-wrap reveal-right">
-          <span class="section-eyebrow" data-i18n="sigEyebrow">Design Philosophy</span>
-          <h2 class="section-heading" data-i18n="sigHeading">Architecture Crafted with Diamond Precision</h2>
+          <span class="section-eyebrow" data-i18n="sigEyebrow">About Azura Studio</span>
+          <h2 class="section-heading signature-heading">
+            <span class="signature-heading-en" aria-label="Architecture, crafted with diamond precision">
+              Architecture, crafted with
+              <span class="signature-diamond-word" aria-hidden="true">diam<span class="signature-diamond-letter"><svg viewBox="0 0 40 56" focusable="false"><path d="M20 2C18 15 12 24 2 28H20Z"/><path d="M20 2C22 15 28 24 38 28H20Z"/><path d="M2 28C12 32 18 41 20 54V28Z"/><path d="M38 28C28 32 22 41 20 54V28Z"/></svg></span>nd</span>
+              precision
+            </span>
+            <span class="signature-heading-ar" data-i18n="sigHeading">عمارة تُصاغ بدقة الألماس</span>
+          </h2>
           <p class="section-desc" data-i18n="sigDesc">
-            Azura Studio creates refined residential, commercial, and hospitality sanctuaries. We curate atmospheres that transcend ordinary design through clean geometries, natural stone materiality, and luminous spatial poetry.
+            With over 10 years of experience in architecture, interior design, and photorealistic visualization, we shape spaces with equal parts technical discipline and creative intuition. Every project begins with a genuine understanding of the people who will inhabit it—refined in detail, purposeful in use, and enduring in character.
           </p>
-
-          <!-- Pillars -->
-          <div class="pillars-list" id="services">
-            <div class="pillar-item delay-1 reveal">
-              <div class="pillar-num">01</div>
-              <h3 class="pillar-title" data-i18n="pillar1Title">Architectural Design</h3>
-              <p class="pillar-desc" data-i18n="pillar1Desc">Bespoke residential villas, high-rise towers, and master-planned spaces.</p>
-            </div>
-            <div class="pillar-item delay-2 reveal">
-              <div class="pillar-num">02</div>
-              <h3 class="pillar-title" data-i18n="pillar2Title">Interior Sanctuaries</h3>
-              <p class="pillar-desc" data-i18n="pillar2Desc">Curated travertine, oak, and marble interiors tailored for timeless living.</p>
-            </div>
-            <div class="pillar-item delay-3 reveal">
-              <div class="pillar-num">03</div>
-              <h3 class="pillar-title" data-i18n="pillar3Title">CGI Visualization</h3>
-              <p class="pillar-desc" data-i18n="pillar3Desc">Uncompromising photorealistic architectural imagery and animations.</p>
-            </div>
-          </div>
+          <p class="signature-partnership" data-i18n="sigPartnership">
+            As a sibling-led creative partnership, we bring complementary perspectives together under one clear design language: precise, personal, and distinctly Azura.
+          </p>
         </div>
 
       </div>
@@ -859,10 +849,10 @@
 
   <!-- Core JavaScript Modules -->
   <script src="assets/js/particles.js"></script>
-  <script src="assets/js/hero-slider.js"></script>
-  <script src="assets/js/voyage-slider.js?v=20260920-layered-carousel"></script>
+  <script src="assets/js/hero-slider.js?v=20260920-about-founders"></script>
+  <script src="assets/js/voyage-slider.js?v=20260920-glass-card-footer"></script>
   <script src="assets/js/analytics.js"></script>
   <script src="assets/js/rfq.js"></script>
-  <script src="assets/js/app.js?v=20260920-mobile-fix"></script>
+  <script src="assets/js/app.js?v=20260920-about-founders"></script>
 </body>
 </html>

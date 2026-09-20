@@ -34,7 +34,35 @@
       this.dragThreshold = 35;
       this.hasDragged = false;
 
+      this.setupCardFooters();
       this.init();
+    }
+
+    setupCardFooters() {
+      this.slides.forEach((slide, idx) => {
+        const slideInfo = this.slideInfos[idx];
+        const footer = slideInfo?.querySelector('.voyage-info-text-wrap');
+        const card = slide.querySelector('.voyage-slide-inner');
+        if (!footer || !card) return;
+
+        footer.querySelector('.voyage-info-action')?.remove();
+        footer.className = 'voyage-card-footer';
+        card.appendChild(footer);
+
+        const projectName = slide.querySelector('.voyage-slide-img')?.alt || `project ${idx + 1}`;
+        slide.setAttribute('role', 'button');
+        slide.setAttribute('aria-label', `Show social links for ${projectName}`);
+        slide.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    toggleActions(slide) {
+      const visible = !slide.classList.contains('actions-visible');
+      slide.classList.toggle('actions-visible', visible);
+      slide.setAttribute('aria-expanded', String(visible));
+      slide.querySelectorAll('.voyage-social-circle').forEach((link) => {
+        link.tabIndex = visible ? 0 : -1;
+      });
     }
 
     init() {
@@ -102,8 +130,15 @@
             e.preventDefault();
             this.navigate(1);
           } else if (slide.hasAttribute('data-current')) {
-            // Toggle active state for mobile / click
-            slide.classList.toggle('actions-visible');
+            this.toggleActions(slide);
+          }
+        });
+
+        slide.addEventListener('keydown', (e) => {
+          if (e.target !== slide || !slide.hasAttribute('data-current')) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.toggleActions(slide);
           }
         });
       });
@@ -161,6 +196,7 @@
         slide.removeAttribute('data-next');
         slide.removeAttribute('data-idle');
         slide.classList.remove('actions-visible');
+        slide.setAttribute('aria-expanded', 'false');
 
         if (idx === currIdx) {
           slide.setAttribute('data-current', '');
@@ -178,8 +214,9 @@
 
         const isCurrent = idx === currIdx;
         slide.setAttribute('aria-hidden', String(!isCurrent));
+        slide.tabIndex = isCurrent ? 0 : -1;
         slide.querySelectorAll('a, button').forEach((control) => {
-          control.tabIndex = isCurrent ? 0 : -1;
+          control.tabIndex = -1;
         });
       });
 

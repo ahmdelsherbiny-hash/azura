@@ -456,53 +456,26 @@ textarea:focus-visible {
   z-index: 1;
 }
 
-/* Glowing Azura Laser Beam Scanner */
+/* Subtle boundary between sketch and render */
 .hero-laser-beam {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0%;
-  width: 3px;
-  background: #ffffff;
-  box-shadow: 
-    0 0 12px 3px rgba(56, 189, 248, 0.9),
-    0 0 35px 8px rgba(14, 59, 100, 0.7),
-    0 0 60px 15px rgba(56, 189, 248, 0.35);
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(218, 239, 248, 0.38) 12%,
+    rgba(235, 247, 252, 0.78) 50%,
+    rgba(218, 239, 248, 0.38) 88%,
+    transparent 100%
+  );
+  box-shadow: 0 0 7px 1px rgba(91, 174, 211, 0.28);
   transform: translateX(-50%);
   pointer-events: none;
   z-index: 10;
   transition: opacity 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.laser-flare-top,
-.laser-flare-bottom {
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #ffffff 10%, #38bdf8 60%, transparent 100%);
-  border-radius: 50%;
-}
-
-.laser-flare-center {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(13, 19, 28, 0.75);
-  border: 1.5px solid var(--azura-blue-glow);
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
-}
-
-.laser-diamond-icon {
-  width: 10px;
-  height: 10px;
-  background: var(--gold-primary);
-  transform: rotate(45deg);
 }
 
 /* Hero Vignette Overlay for Crisp Contrast */
@@ -639,9 +612,15 @@ textarea:focus-visible {
 
 .signature-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  direction: ltr;
   gap: 4rem;
   align-items: center;
+}
+
+[dir="rtl"] .signature-text-wrap {
+  direction: rtl;
+  text-align: right;
 }
 
 .signature-emblem-wrap {
@@ -662,6 +641,31 @@ textarea:focus-visible {
   box-shadow: var(--card-shadow);
 }
 
+.signature-portrait-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  direction: ltr;
+  gap: 3px;
+  padding: 3px;
+  background: linear-gradient(135deg, rgba(197, 168, 128, 0.72), rgba(56, 189, 248, 0.2));
+}
+
+.signature-portrait {
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.signature-portrait:first-child {
+  border-radius: calc(var(--radius-lg) - 3px) 0 0 calc(var(--radius-lg) - 3px);
+}
+
+.signature-portrait:last-child {
+  border-radius: 0 calc(var(--radius-lg) - 3px) calc(var(--radius-lg) - 3px) 0;
+}
+
 .signature-card-frame img {
   width: 100%;
   height: 100%;
@@ -669,8 +673,72 @@ textarea:focus-visible {
   transition: transform 0.6s ease;
 }
 
+.signature-portrait img {
+  object-position: center 28%;
+}
+
 .signature-card-frame:hover img {
   transform: scale(1.04);
+}
+
+.signature-heading {
+  text-wrap: balance;
+}
+
+.signature-heading-en {
+  display: inline;
+}
+
+.signature-heading-ar {
+  display: none;
+}
+
+[dir="rtl"] .signature-heading-en {
+  display: none;
+}
+
+[dir="rtl"] .signature-heading-ar {
+  display: inline;
+}
+
+.signature-diamond-word {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.signature-diamond-letter {
+  display: inline-flex;
+  width: 0.72em;
+  height: 1.02em;
+  margin-inline: 0.035em;
+  transform: translateY(0.13em);
+}
+
+.signature-diamond-letter svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.signature-diamond-letter path {
+  stroke: var(--gold-primary);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+.signature-diamond-letter path:nth-child(1) { fill: #4ba8d1; }
+.signature-diamond-letter path:nth-child(2) { fill: #236d99; }
+.signature-diamond-letter path:nth-child(3) { fill: #123f63; }
+.signature-diamond-letter path:nth-child(4) { fill: #08263e; }
+
+.signature-partnership {
+  max-width: 62ch;
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid rgba(197, 168, 128, 0.48);
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  line-height: 1.75;
 }
 
 .section-eyebrow {
@@ -705,37 +773,6 @@ textarea:focus-visible {
   color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 2rem;
-}
-
-.pillars-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.pillar-item {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 1.25rem;
-}
-
-.pillar-num {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--gold-primary);
-  margin-bottom: 0.35rem;
-}
-
-.pillar-title {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.pillar-desc {
-  font-size: 0.8rem;
-  color: var(--text-muted);
 }
 
 /* ==========================================================================
@@ -1019,82 +1056,122 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
-/* Dual Social Action Circles Overlay (Instagram & Facebook) */
+/* Quiet social actions revealed on card activation */
 .voyage-card-actions {
   position: absolute;
-  top: 35%;
+  top: auto;
+  bottom: 5.2rem;
   left: 0;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 0.65rem;
   z-index: 30;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(16px) scale(0.9);
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(8px);
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.voyage-slide[data-current]:hover .voyage-card-actions,
 .voyage-slide[data-current].actions-visible .voyage-card-actions {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   pointer-events: auto;
 }
 
 .voyage-social-circle {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-full);
-  background: rgba(7, 12, 19, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid var(--border-glass);
-  color: #ffffff;
+  background: rgba(12, 18, 27, 0.48);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.84);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.25);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
   cursor: pointer;
   text-decoration: none;
 }
 
-.voyage-social-circle.voyage-social-ig:hover {
-  background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
-  border-color: #fdf2e3;
-  transform: scale(1.15) translateY(-3px);
-  box-shadow: 0 12px 30px rgba(225, 48, 108, 0.5), 0 0 20px rgba(253, 29, 29, 0.4);
-}
-
-.voyage-social-circle.voyage-social-fb:hover {
-  background: #1877f2;
-  border-color: #fdf2e3;
-  transform: scale(1.15) translateY(-3px);
-  box-shadow: 0 12px 30px rgba(24, 119, 242, 0.5), 0 0 20px rgba(24, 119, 242, 0.4);
+.voyage-social-circle:hover,
+.voyage-social-circle:focus-visible {
+  background: rgba(20, 29, 41, 0.7);
+  border-color: rgba(255, 255, 255, 0.42);
+  color: #ffffff;
+  transform: translateY(-2px);
+  outline: none;
 }
 
 .voyage-social-arrow {
   position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 18px;
-  height: 18px;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: var(--gold-primary);
-  color: #070a0f;
+  background: rgba(238, 230, 218, 0.82);
+  color: #17202b;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid #070a0f;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-  transition: transform 0.25s ease;
+  border: 1px solid rgba(7, 10, 15, 0.35);
+  box-shadow: none;
+  transition: transform 160ms ease;
+}
+
+.voyage-social-arrow svg {
+  width: 9px;
+  height: 9px;
 }
 
 .voyage-social-circle:hover .voyage-social-arrow {
-  transform: scale(1.2);
+  transform: translate(1px, -1px);
+}
+
+/* Compact information footer mounted inside the active image */
+.voyage-card-footer {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: 0.72rem 1rem 0.78rem;
+  background: linear-gradient(180deg, rgba(8, 12, 18, 0.28), rgba(8, 12, 18, 0.66));
+  backdrop-filter: blur(11px) saturate(1.05);
+  -webkit-backdrop-filter: blur(11px) saturate(1.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  pointer-events: none;
+}
+
+[data-theme="light"] .voyage-card-footer {
+  background: linear-gradient(180deg, rgba(248, 246, 242, 0.42), rgba(248, 246, 242, 0.76));
+  border-top-color: rgba(10, 37, 64, 0.12);
+  color: #10263a;
+}
+
+.voyage-card-footer .voyage-info-cat {
+  margin-bottom: 0.2rem;
+  color: rgba(244, 221, 188, 0.86);
+  font-size: 0.58rem;
+  letter-spacing: 0.17em;
+}
+
+[data-theme="light"] .voyage-card-footer .voyage-info-cat {
+  color: rgba(112, 78, 37, 0.82);
+}
+
+.voyage-card-footer .voyage-info-title {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(0.96rem, 1.4vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 /* Staggered Floating 3D Typography Layer */
@@ -1766,28 +1843,27 @@ textarea:focus-visible {
     transition: opacity 220ms ease;
   }
 
-  .voyage-card-actions,
-  .voyage-slide[data-current]:hover .voyage-card-actions,
+  .voyage-card-actions {
+    top: auto;
+    right: 0;
+    bottom: 4.75rem;
+    left: 0;
+    flex-direction: row;
+    gap: 0.6rem;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+  }
+
   .voyage-slide[data-current].actions-visible .voyage-card-actions {
-    top: 1rem;
-    right: 1rem;
-    left: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
     pointer-events: auto;
   }
 
-  [dir="rtl"] .voyage-card-actions {
-    right: auto;
-    left: 1rem;
-  }
-
   .voyage-social-circle {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 
   .voyage-info-title {
@@ -1798,6 +1874,18 @@ textarea:focus-visible {
   .voyage-info-cat {
     font-size: 0.65rem;
     letter-spacing: 0.14em;
+  }
+
+  .voyage-card-footer {
+    padding: 0.68rem 0.9rem 0.72rem;
+  }
+
+  .voyage-card-footer .voyage-info-title {
+    font-size: clamp(0.94rem, 4.2vw, 1.08rem);
+  }
+
+  .voyage-card-footer .voyage-info-cat {
+    font-size: 0.56rem;
   }
 
   .voyage-explore-btn {
@@ -1821,10 +1909,6 @@ textarea:focus-visible {
 
   .form-group.full-width {
     grid-column: span 1;
-  }
-
-  .pillars-list {
-    grid-template-columns: 1fr;
   }
 
   .rfq-card {
@@ -1873,7 +1957,22 @@ textarea:focus-visible {
   }
 
   .signature-card-frame {
-    padding: 0.6rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .signature-heading {
+    font-size: clamp(1.75rem, 7.4vw, 2.25rem);
+  }
+
+  .signature-text-wrap .section-desc {
+    font-size: 0.98rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .signature-partnership {
+    font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .section-header-row {

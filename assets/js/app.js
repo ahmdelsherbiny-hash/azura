@@ -31,15 +31,10 @@ const I18N_DICTIONARY = {
     heroBadge: 'Open for Select Commissions',
 
     // Signature
-    sigEyebrow: 'Design Philosophy',
-    sigHeading: 'Architecture Crafted with Diamond Precision',
-    sigDesc: 'Azura Studio creates refined residential, commercial, and hospitality sanctuaries. We curate atmospheres that transcend ordinary design through clean geometries, natural stone materiality, and luminous spatial poetry.',
-    pillar1Title: 'Architectural Design',
-    pillar1Desc: 'Bespoke residential villas, high-rise towers, and master-planned spaces.',
-    pillar2Title: 'Interior Sanctuaries',
-    pillar2Desc: 'Curated travertine, oak, and marble interiors tailored for timeless living.',
-    pillar3Title: 'CGI Visualization',
-    pillar3Desc: 'Uncompromising photorealistic architectural imagery and animations.',
+    sigEyebrow: 'About Azura Studio',
+    sigHeading: 'Architecture, crafted with diamond precision',
+    sigDesc: 'With over 10 years of experience in architecture, interior design, and photorealistic visualization, we shape spaces with equal parts technical discipline and creative intuition. Every project begins with a genuine understanding of the people who will inhabit it—refined in detail, purposeful in use, and enduring in character.',
+    sigPartnership: 'As a sibling-led creative partnership, we bring complementary perspectives together under one clear design language: precise, personal, and distinctly Azura.',
 
     // Selected Projects
     projEyebrow: 'Portfolio Highlights',
@@ -109,15 +104,10 @@ const I18N_DICTIONARY = {
     heroBadge: 'متاحون لاستقبال مشاريع جديدة',
 
     // Signature
-    sigEyebrow: 'فلسفة التصميم',
-    sigHeading: 'عمارة مصممة بدقة الألماس',
-    sigDesc: 'يبتكر استوديو أزورا ملاذات سكنية وتجارية وضيافة راقية. نصنع بيئات تتجاوز المألوف عبر التناغم الهندسي، دفء الحجر والرخام الطبيعي، وشاعرية الفضاءات المضيئة.',
-    pillar1Title: 'التصميم المعماري',
-    pillar1Desc: 'فلل سكنية فاخرة، أبراج شاهقة، ومخططات معمارية مدروسة.',
-    pillar2Title: 'التصميم الداخلي',
-    pillar2Desc: 'فراغات من الحجر والخشب والرخام مصممة لأسلوب حياة خالد.',
-    pillar3Title: 'المحاكاة البصرية CGI',
-    pillar3Desc: 'إخراج بصري ورندرات ثلاثية الأبعاد فائقة الواقعية والجمال.',
+    sigEyebrow: 'عن استوديو أزورا',
+    sigHeading: 'عمارة تُصاغ بدقة الألماس',
+    sigDesc: 'بخبرة تمتد لأكثر من عشر سنوات في العمارة والتصميم الداخلي والمحاكاة البصرية فائقة الواقعية، نصوغ مساحات تجمع بين الانضباط التقني والحس الإبداعي. يبدأ كل مشروع من فهم حقيقي لمن سيعيشون فيه، لنقدّم تصميمًا دقيق التفاصيل، عمليًا في استخدامه، وراسخًا في حضوره.',
+    sigPartnership: 'يقود أزورا شقيقان يجمعان رؤيتين متكاملتين ضمن لغة تصميم واحدة: دقيقة، شخصية، ومميّزة بروح أزورا.',
 
     // Selected Projects
     projEyebrow: 'أبرز الأعمال',

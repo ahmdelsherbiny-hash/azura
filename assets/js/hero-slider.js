@@ -144,15 +144,15 @@
     ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
   }
 
-  // Real-time canvas laser glow gradient
+  // Softens the transition edge without competing with the architecture.
   function drawLaserCanvasGlow(ctx, x, h) {
-    const glowWidth = 32;
+    const glowWidth = 14;
     const gradient = ctx.createLinearGradient(x - glowWidth, 0, x + glowWidth, 0);
-    gradient.addColorStop(0, 'rgba(56, 189, 248, 0)');
-    gradient.addColorStop(0.35, 'rgba(56, 189, 248, 0.3)');
-    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
-    gradient.addColorStop(0.65, 'rgba(212, 175, 55, 0.35)');
-    gradient.addColorStop(1, 'rgba(56, 189, 248, 0)');
+    gradient.addColorStop(0, 'rgba(91, 174, 211, 0)');
+    gradient.addColorStop(0.4, 'rgba(91, 174, 211, 0.08)');
+    gradient.addColorStop(0.5, 'rgba(232, 246, 251, 0.32)');
+    gradient.addColorStop(0.6, 'rgba(91, 174, 211, 0.08)');
+    gradient.addColorStop(1, 'rgba(91, 174, 211, 0)');
 
     ctx.fillStyle = gradient;
     ctx.fillRect(x - glowWidth, 0, glowWidth * 2, h);

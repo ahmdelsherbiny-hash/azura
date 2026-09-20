@@ -5,6 +5,9 @@ backend/azura resend api.txt
 .env.*
 !.env.example
 
+# Local-only admin dashboard
+dashboard.html
+
 # Local deployment metadata
 .vercel/
 

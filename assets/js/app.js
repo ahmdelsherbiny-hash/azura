@@ -18,9 +18,9 @@ window.AZURA_CONFIG = {
 const I18N_DICTIONARY = {
   en: {
     // Navigation
-    navProjects: 'Projects',
+    navHome: 'Home',
     navAbout: 'About',
-    navServices: 'Services',
+    navProjects: 'Projects',
     navContact: 'Contact Us',
     ctaQuote: 'Request Quote',
 
@@ -96,9 +96,9 @@ const I18N_DICTIONARY = {
 
   ar: {
     // Navigation
-    navProjects: 'المشاريع',
+    navHome: 'الرئيسية',
     navAbout: 'عن الاستوديو',
-    navServices: 'الخدمات',
+    navProjects: 'المشاريع',
     navContact: 'تواصل معنا',
     ctaQuote: 'طلب عرض سعر',
 

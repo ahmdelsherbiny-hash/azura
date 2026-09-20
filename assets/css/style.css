@@ -1639,53 +1639,52 @@ textarea:focus-visible {
 
   /* Responsive Voyage Slider for Mobile */
   :root {
-    --voyage-slide-width: min(calc(100vw - 4.5rem), 320px);
+    --voyage-slide-width: min(calc(100vw - 2rem), 340px);
     --voyage-transition-duration: 420ms;
   }
 
   .voyage-slider-container {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto 52px;
+    column-gap: 0.85rem;
+    row-gap: 1rem;
     min-height: 0;
     max-width: 100%;
   }
 
   .voyage-slider-btn {
-    position: absolute;
-    top: 44%;
+    position: static;
     width: 44px;
     height: 44px;
-    transform: translateY(-50%);
+    transform: none;
   }
 
   .voyage-slider-btn:hover {
-    transform: translateY(-50%);
+    transform: none;
   }
 
   .voyage-slider-btn:active {
-    transform: translateY(-50%) scale(0.94);
+    transform: scale(0.94);
   }
 
   .voyage-btn-prev {
-    left: 0;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
   }
 
   .voyage-btn-next {
-    right: 0;
-  }
-
-  [dir="rtl"] .voyage-btn-prev {
-    left: auto;
-    right: 0;
-  }
-
-  [dir="rtl"] .voyage-btn-next {
-    right: auto;
-    left: 0;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
   }
 
   .voyage-slides-wrapper {
+    grid-column: 1 / -1;
+    grid-row: 1;
     width: 100%;
-    height: clamp(410px, 135vw, 540px);
+    height: clamp(450px, 138vw, 540px);
     touch-action: pan-y pinch-zoom;
     overflow: hidden;
     perspective: none;
@@ -1753,7 +1752,7 @@ textarea:focus-visible {
   }
 
   .voyage-controls-bar {
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
     max-width: 100%;
     padding: 0.65rem 1rem;
   }
@@ -1828,10 +1827,6 @@ textarea:focus-visible {
     margin-bottom: 2rem;
   }
 
-  .voyage-slider-btn {
-    top: 42%;
-  }
-
   .direct-channels {
     margin-top: 2rem;
   }
@@ -1848,7 +1843,7 @@ textarea:focus-visible {
 @media (max-width: 360px) {
   :root {
     --container-padding: 0.875rem;
-    --voyage-slide-width: calc(100vw - 4rem);
+    --voyage-slide-width: min(calc(100vw - 1.75rem), 340px);
   }
 
   .header-actions {

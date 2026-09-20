@@ -25,7 +25,8 @@
 
       this.currentIndex = 0;
       this.isAnimating = false;
-      this.animationDuration = 750;
+      this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.animationDuration = this.motionQuery.matches ? 0 : 750;
 
       // Mouse drag state
       this.isDragging = false;
@@ -38,6 +39,15 @@
     }
 
     init() {
+      this.container.setAttribute('role', 'region');
+      this.container.setAttribute('aria-roledescription', 'carousel');
+      this.container.setAttribute('aria-label', 'Selected architectural projects');
+
+      const infoStage = this.container.querySelector('.voyage-slides-infos');
+      if (infoStage) {
+        infoStage.setAttribute('aria-live', 'polite');
+      }
+
       // Initial state render
       this.updateState(0, 0);
 
@@ -45,6 +55,10 @@
       this.setupControls();
       this.setupMouseAndTouchDrag();
       this.setupKeyboard();
+
+      this.motionQuery.addEventListener('change', (event) => {
+        this.animationDuration = event.matches ? 0 : 750;
+      });
 
       // Export refresh function globally for language / window resize updates
       window.refreshVoyageSlider = () => {
@@ -125,9 +139,13 @@
         });
       }
 
-      setTimeout(() => {
+      if (this.animationDuration === 0) {
         this.isAnimating = false;
-      }, this.animationDuration);
+      } else {
+        setTimeout(() => {
+          this.isAnimating = false;
+        }, this.animationDuration);
+      }
     }
 
     updateState(currIdx, direction = 1) {
@@ -155,6 +173,12 @@
           slide.setAttribute('data-idle', '');
           slide.style.zIndex = '1';
         }
+
+        const isCurrent = idx === currIdx;
+        slide.setAttribute('aria-hidden', String(!isCurrent));
+        slide.querySelectorAll('a, button').forEach((control) => {
+          control.tabIndex = isCurrent ? 0 : -1;
+        });
       });
 
       // Update slide infos
@@ -173,6 +197,8 @@
         } else {
           info.setAttribute('data-idle', '');
         }
+
+        info.setAttribute('aria-hidden', String(idx !== currIdx));
       });
 
       // Update ambient background
@@ -279,15 +305,12 @@
     }
 
     setupKeyboard() {
-      window.addEventListener('keydown', (e) => {
-        // Only navigate if slider is in viewport
-        const rect = this.container.getBoundingClientRect();
-        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!isInViewport) return;
-
+      this.container.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
+          e.preventDefault();
           this.navigate(1);
         } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
           this.navigate(-1);
         }
       });

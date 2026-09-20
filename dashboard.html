@@ -108,22 +108,256 @@
       transform: translateY(0);
       pointer-events: auto;
     }
+
+    .dashboard-body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .dashboard-main,
+    .dashboard-main > *,
+    .dashboard-main .glass-card,
+    [id^="chart-"] {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .dashboard-table-scroll {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .dashboard-table-scroll table {
+      min-width: 900px;
+    }
+
+    @media (max-width: 767px) {
+      .dashboard-header-inner {
+        align-items: stretch !important;
+        flex-direction: column;
+        gap: 0.8rem !important;
+        padding: 0.75rem 1rem !important;
+      }
+
+      .dashboard-brand {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .dashboard-brand-copy {
+        min-width: 0;
+      }
+
+      .dashboard-brand-copy > div {
+        flex-wrap: wrap;
+      }
+
+      .dashboard-brand-copy .font-cinzel {
+        font-size: 0.95rem;
+      }
+
+      .dashboard-controls {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem !important;
+        width: 100%;
+      }
+
+      .dashboard-controls > * {
+        min-height: 44px;
+        justify-content: center;
+        padding-inline: 0.65rem !important;
+      }
+
+      .dashboard-controls > a {
+        grid-column: 1 / -1;
+      }
+
+      .dashboard-filter-drawer {
+        position: relative !important;
+        top: auto !important;
+      }
+
+      #filter-drawer.drawer-open {
+        max-height: min(75dvh, 560px) !important;
+        overflow-y: auto;
+      }
+
+      .dashboard-filter-inner {
+        align-items: stretch !important;
+        flex-direction: column;
+        padding: 0.85rem 1rem !important;
+      }
+
+      .dashboard-time-filters {
+        align-items: stretch !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .dashboard-time-filters > span {
+        grid-column: 1 / -1;
+        margin: 0 0 0.35rem !important;
+      }
+
+      .dashboard-time-filters button {
+        min-height: 42px;
+        white-space: normal;
+      }
+
+      .dashboard-custom-dates {
+        align-items: stretch !important;
+        width: 100%;
+      }
+
+      .dashboard-date-range {
+        display: grid !important;
+        flex: 1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem !important;
+        min-width: 0;
+      }
+
+      .dashboard-date-range > span:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .dashboard-date-range > span:nth-of-type(2) {
+        display: none;
+      }
+
+      .dashboard-date-range input {
+        min-height: 38px;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .dashboard-custom-dates > button {
+        flex: 0 0 44px;
+        min-height: 44px;
+      }
+
+      .dashboard-main {
+        padding: 1rem !important;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.75rem !important;
+      }
+
+      .kpi-grid > .glass-card {
+        padding: 1rem !important;
+      }
+
+      .kpi-grid h3 {
+        font-size: 1.5rem !important;
+      }
+
+      .kpi-grid .items-baseline {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.3rem !important;
+      }
+
+      .dashboard-main .glass-card {
+        padding: 1rem;
+      }
+
+      .dashboard-main h2,
+      .dashboard-main h3,
+      .dashboard-main h4,
+      .dashboard-main p {
+        overflow-wrap: anywhere;
+      }
+
+      .dashboard-panel-heading,
+      .dashboard-table-toolbar {
+        align-items: stretch !important;
+        flex-direction: column;
+      }
+
+      .dashboard-search {
+        min-height: 44px;
+        width: 100% !important;
+      }
+
+      #chart-area-sessions {
+        height: 15rem !important;
+      }
+
+      #chart-geo-donut,
+      #chart-customer-types {
+        height: 14rem !important;
+      }
+
+      .apexcharts-canvas,
+      .apexcharts-svg {
+        max-width: 100% !important;
+      }
+
+      .dashboard-table-card {
+        padding-inline: 0.75rem !important;
+      }
+
+      .dashboard-table-scroll {
+        margin-inline: -0.25rem;
+        padding-bottom: 0.35rem;
+        width: calc(100% + 0.5rem);
+      }
+
+      footer {
+        padding-inline: 1rem;
+      }
+    }
+
+    @media (max-width: 359px) {
+      .kpi-grid,
+      .dashboard-time-filters {
+        grid-template-columns: 1fr !important;
+      }
+
+      .dashboard-time-filters > span {
+        grid-column: auto;
+      }
+
+      .dashboard-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-controls > a {
+        grid-column: auto;
+      }
+
+      .dashboard-date-range {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-date-range > span:first-child {
+        grid-column: auto;
+      }
+    }
   </style>
 </head>
-<body class="min-h-screen antialiased flex flex-col justify-between">
+<body class="dashboard-body min-h-screen antialiased flex flex-col justify-between">
 
   <!-- =========================================================================
        TOP NAVIGATION & STATUS BAR
        ========================================================================= -->
-  <header class="border-b border-azura-border sticky top-0 z-50 glass-card bg-opacity-90">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+  <header class="dashboard-header border-b border-azura-border sticky top-0 z-50 glass-card bg-opacity-90">
+    <div class="dashboard-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
       
       <!-- Brand & Title -->
-      <div class="flex items-center gap-3.5">
+      <div class="dashboard-brand flex items-center gap-3.5">
         <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-azura-blue to-azura-card flex items-center justify-center border border-azura-gold/30 shadow-lg">
           <i data-lucide="gem" class="w-5 h-5 text-azura-gold"></i>
         </div>
-        <div>
+        <div class="dashboard-brand-copy">
           <div class="flex items-center gap-2">
             <span class="font-cinzel tracking-widest font-bold text-azura-gold gold-glow text-lg">AZURA STUDIO</span>
             <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-azura-blue/20 text-azura-blueLight border border-azura-blue/40">Analytics OS</span>
@@ -133,7 +367,7 @@
       </div>
 
       <!-- Controls & Filter Button (Replaced text with interactive Filter trigger) -->
-      <div class="flex items-center gap-3">
+      <div class="dashboard-controls flex items-center gap-3">
         
         <!-- Toggle Filter Trigger Button -->
         <button id="toggle-filter-btn" onclick="toggleFilterDrawer()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-azura-surface hover:bg-azura-card border border-azura-gold/30 text-azura-gold text-xs font-medium transition-all shadow hover:shadow-azura-gold/10">
@@ -162,11 +396,11 @@
   <!-- =========================================================================
        COLLAPSIBLE PERSISTENT TIME FILTER DRAWER (Opens on button click, closes on scroll)
        ========================================================================= -->
-  <div id="filter-drawer" class="drawer-closed border-b border-azura-border/60 bg-azura-surface/95 backdrop-blur-md sticky top-[61px] z-40 shadow-2xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+  <div id="filter-drawer" class="dashboard-filter-drawer drawer-closed border-b border-azura-border/60 bg-azura-surface/95 backdrop-blur-md sticky top-[61px] z-40 shadow-2xl">
+    <div class="dashboard-filter-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
       
       <!-- Timeframe Buttons Group -->
-      <div class="flex items-center flex-wrap gap-1.5 text-xs">
+      <div class="dashboard-time-filters flex items-center flex-wrap gap-1.5 text-xs">
         <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mr-1.5 flex items-center gap-1">
           <i data-lucide="calendar" class="w-3.5 h-3.5 text-azura-gold"></i>
           Time Range:
@@ -180,8 +414,8 @@
       </div>
 
       <!-- Custom Date Pickers & Active Range Info -->
-      <div class="flex items-center gap-2 text-xs">
-        <div class="flex items-center gap-1.5 bg-azura-card/80 border border-slate-700/80 rounded-md px-2.5 py-1">
+      <div class="dashboard-custom-dates flex items-center gap-2 text-xs">
+        <div class="dashboard-date-range flex items-center gap-1.5 bg-azura-card/80 border border-slate-700/80 rounded-md px-2.5 py-1">
           <span class="text-slate-400">Custom:</span>
           <input type="date" id="filter-date-from" onchange="setCustomDateFilter()" class="bg-transparent text-slate-200 border-none outline-none text-[11px] cursor-pointer" />
           <span class="text-slate-500">&rarr;</span>
@@ -198,10 +432,10 @@
   <!-- =========================================================================
        MAIN DASHBOARD CONTENT
        ========================================================================= -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
+  <main class="dashboard-main max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
 
     <!-- KPI STAT CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="kpi-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       
       <!-- Card 1: Unique Visitors -->
       <div class="glass-card rounded-xl p-5 relative overflow-hidden group">
@@ -311,7 +545,7 @@
       
       <!-- Area Chart: Sessions & Duration Over Time -->
       <div class="lg:col-span-2 glass-card rounded-2xl p-6">
-        <div class="flex items-center justify-between mb-4">
+        <div class="dashboard-panel-heading flex items-center justify-between mb-4">
           <div>
             <h3 class="text-base font-cinzel font-bold text-white flex items-center gap-2">
               <i data-lucide="activity" class="w-4 h-4 text-azura-gold"></i>
@@ -375,8 +609,8 @@
     <!-- =========================================================================
          SESSIONS INTELLIGENCE LOG TABLE (Every Session with Duration, Device, Geo, Projects & RFQ)
          ========================================================================= -->
-    <div class="glass-card rounded-2xl p-6">
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+    <div class="dashboard-table-card glass-card rounded-2xl p-6">
+      <div class="dashboard-table-toolbar flex flex-wrap items-center justify-between gap-4 mb-4">
         <div>
           <div class="flex items-center gap-2.5">
             <div class="w-7 h-7 rounded-lg bg-azura-blue/20 flex items-center justify-center text-azura-blueLight">
@@ -388,10 +622,10 @@
           </div>
           <p class="text-xs text-slate-400 mt-1">Detailed session breakdown: device type, duration, location, projects viewed, and RFQ status</p>
         </div>
-        <input type="text" id="session-search" oninput="filterSessionsTable()" placeholder="Search by session, device, city, project..." class="px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
+        <input type="text" id="session-search" oninput="filterSessionsTable()" placeholder="Search by session, device, city, project..." class="dashboard-search px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
       </div>
 
-      <div class="overflow-x-auto">
+      <div class="dashboard-table-scroll overflow-x-auto" tabindex="0" aria-label="Scrollable visitor sessions table">
         <table class="w-full text-left text-xs text-slate-300">
           <thead class="bg-azura-surface/80 uppercase tracking-wider text-[11px] text-azura-gold border-b border-azura-border">
             <tr>
@@ -415,8 +649,8 @@
     </div>
 
     <!-- RECENT RFQ SUBMISSIONS TABLE -->
-    <div class="glass-card rounded-2xl p-6">
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+    <div class="dashboard-table-card glass-card rounded-2xl p-6">
+      <div class="dashboard-table-toolbar flex flex-wrap items-center justify-between gap-4 mb-4">
         <div>
           <h3 class="text-base font-cinzel font-bold text-white flex items-center gap-2">
             <i data-lucide="inbox" class="w-4 h-4 text-azura-gold"></i>
@@ -424,10 +658,10 @@
           </h3>
           <p class="text-xs text-slate-400">Incoming inquiries from prospective clients</p>
         </div>
-        <input type="text" id="rfq-search" oninput="filterRfqTable()" placeholder="Search by name, email, city..." class="px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
+        <input type="text" id="rfq-search" oninput="filterRfqTable()" placeholder="Search by name, email, city..." class="dashboard-search px-3.5 py-1.5 rounded-lg bg-azura-surface border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-azura-gold/50 w-64" />
       </div>
 
-      <div class="overflow-x-auto">
+      <div class="dashboard-table-scroll overflow-x-auto" tabindex="0" aria-label="Scrollable quotation requests table">
         <table class="w-full text-left text-xs text-slate-300">
           <thead class="bg-azura-surface/80 uppercase tracking-wider text-[11px] text-azura-gold border-b border-azura-border">
             <tr>

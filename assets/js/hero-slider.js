@@ -9,6 +9,7 @@
   const container = document.getElementById('hero-visual-wrapper');
   const canvas = document.getElementById('hero-laser-canvas');
   const laserBeam = document.getElementById('hero-laser-beam');
+  const heroVideo = document.getElementById('hero-cinematic-video');
 
   if (!container || !canvas || !laserBeam) return;
 
@@ -21,6 +22,7 @@
   const loopDuration = 10000; // 10s per full back-and-forth cycle
   let startTime = null;
   let animationFrameId;
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // Initialize beam at far left immediately
   laserBeam.style.left = '0%';
@@ -33,6 +35,10 @@
     // If sketch is already loaded, draw sketch immediately to guarantee no render flicker
     if (sketchImg.complete && sketchImg.naturalWidth > 0 && width > 0 && height > 0) {
       drawImageCover(ctx, sketchImg, 0, 0, width, height);
+    }
+
+    if (motionQuery.matches && imagesLoaded === 2) {
+      renderFrame(0.5);
     }
   }
 
@@ -48,6 +54,10 @@
     }
     if (imagesLoaded === 2) {
       resizeCanvas();
+      if (motionQuery.matches) {
+        renderStaticFrame();
+        return;
+      }
       // Brief luxury hold at initial 100% sketch state before starting sweep
       setTimeout(() => {
         startEngine();
@@ -60,7 +70,41 @@
   sketchImg.src = 'assets/images/hero_sketch.jpg';
   renderImg.src = 'assets/images/hero_render.jpg';
 
+  function renderFrame(currentPos) {
+    const splitX = Math.round(currentPos * width);
+
+    laserBeam.style.left = `${currentPos * 100}%`;
+    drawImageCover(ctx, renderImg, 0, 0, width, height);
+
+    if (splitX < width) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(splitX, 0, width - splitX, height);
+      ctx.clip();
+      drawImageCover(ctx, sketchImg, 0, 0, width, height);
+      ctx.restore();
+    }
+
+    drawLaserCanvasGlow(ctx, splitX, height);
+  }
+
+  function renderStaticFrame() {
+    cancelAnimationFrame(animationFrameId);
+    startTime = null;
+    heroVideo?.pause();
+    laserBeam.style.opacity = '0';
+    renderFrame(0.5);
+  }
+
   function startEngine() {
+    if (motionQuery.matches || document.hidden) {
+      renderStaticFrame();
+      return;
+    }
+
+    cancelAnimationFrame(animationFrameId);
+    laserBeam.style.opacity = '1';
+
     function renderLoop(timestamp) {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
@@ -70,28 +114,7 @@
       const progress = (elapsed % loopDuration) / loopDuration;
       const currentPos = (1 - Math.cos(progress * Math.PI * 2)) / 2;
 
-      const splitX = Math.round(currentPos * width);
-
-      // Position glowing laser beam indicator precisely
-      laserBeam.style.left = `${currentPos * 100}%`;
-
-      // 1. Draw photorealistic render as base layer
-      drawImageCover(ctx, renderImg, 0, 0, width, height);
-
-      // 2. Draw 2D architectural sketch clipped to the right side of the laser beam
-      // When splitX = 0, sketch covers the full canvas (100% sketch)
-      // When splitX = width, sketch width is 0 (100% render)
-      if (splitX < width) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(splitX, 0, width - splitX, height);
-        ctx.clip();
-        drawImageCover(ctx, sketchImg, 0, 0, width, height);
-        ctx.restore();
-      }
-
-      // 3. Draw Laser Light Blend Glow on Canvas along the laser divider line
-      drawLaserCanvasGlow(ctx, splitX, height);
+      renderFrame(currentPos);
 
       animationFrameId = requestAnimationFrame(renderLoop);
     }
@@ -136,4 +159,23 @@
   }
 
   window.addEventListener('resize', resizeCanvas);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationFrameId);
+    } else if (!motionQuery.matches && imagesLoaded === 2) {
+      startTime = null;
+      startEngine();
+    }
+  });
+
+  motionQuery.addEventListener('change', (event) => {
+    if (event.matches) {
+      renderStaticFrame();
+    } else if (imagesLoaded === 2) {
+      heroVideo?.play().catch(() => {});
+      startTime = null;
+      startEngine();
+    }
+  });
 })();

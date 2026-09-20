@@ -11,6 +11,7 @@
   let animationFrameId;
   let width, height;
   let particles = [];
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // Configuration
   const isMobile = window.innerWidth < 768;
@@ -121,11 +122,15 @@
 
     // Update and draw particles
     for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
+      if (!motionQuery.matches) {
+        particles[i].update();
+      }
       particles[i].draw(ctx, isDarkTheme);
     }
 
-    animationFrameId = requestAnimationFrame(animate);
+    if (!motionQuery.matches) {
+      animationFrameId = requestAnimationFrame(animate);
+    }
   }
 
   // Handle visibility changes to save CPU/battery
@@ -133,8 +138,14 @@
     if (document.hidden) {
       cancelAnimationFrame(animationFrameId);
     } else {
+      cancelAnimationFrame(animationFrameId);
       animate();
     }
+  });
+
+  motionQuery.addEventListener('change', () => {
+    cancelAnimationFrame(animationFrameId);
+    animate();
   });
 
   window.addEventListener('resize', resize);

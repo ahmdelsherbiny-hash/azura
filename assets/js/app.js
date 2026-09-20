@@ -262,18 +262,59 @@ const I18N_DICTIONARY = {
 
   // Mobile Menu
   if (mobileToggle && navMenu) {
+    const closeMobileMenu = () => {
+      navMenu.classList.remove('open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobileToggle.setAttribute('aria-label', 'Open Navigation Menu');
+      document.body.classList.remove('mobile-menu-open');
+    };
+
+    const openMobileMenu = () => {
+      navMenu.classList.add('open');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      mobileToggle.setAttribute('aria-label', 'Close Navigation Menu');
+      document.body.classList.add('mobile-menu-open');
+      navMenu.querySelector('.nav-link')?.focus();
+    };
+
     mobileToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
       const isOpen = navMenu.classList.contains('open');
-      mobileToggle.setAttribute('aria-expanded', isOpen);
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
     });
 
     // Close menu when clicking nav links
     navMenu.querySelectorAll('.nav-link').forEach((link) => {
       link.addEventListener('click', () => {
-        navMenu.classList.remove('open');
+        closeMobileMenu();
       });
     });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navMenu.classList.contains('open')) {
+        closeMobileMenu();
+        mobileToggle.focus();
+      }
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (
+        navMenu.classList.contains('open') &&
+        !navMenu.contains(event.target) &&
+        !mobileToggle.contains(event.target)
+      ) {
+        closeMobileMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navMenu.classList.contains('open')) {
+        closeMobileMenu();
+      }
+    }, { passive: true });
   }
 
   // Header Scroll Effect

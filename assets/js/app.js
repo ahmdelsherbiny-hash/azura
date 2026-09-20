@@ -9,8 +9,8 @@ window.AZURA_CONFIG = {
   ANALYTICS_ENDPOINT: '',
   RFQ_ENDPOINT: '',
   SOCIAL_LINKS: {
-    instagram: 'https://instagram.com/azura.studio',
-    facebook: 'https://facebook.com/azura.studio',
+    instagram: 'https://www.instagram.com/azurastudi0?stkn=MWtubWNiZHNnOWZ2Yw%3D%3D&utm_source=qr',
+    facebook: 'https://www.facebook.com/share/1K6bCbvGno/?mibextid=wwXIfr',
     whatsapp: 'https://wa.me/201000000000'
   }
 };
@@ -63,7 +63,6 @@ const I18N_DICTIONARY = {
     // RFQ Section
     rfqEyebrow: 'Inquire',
     rfqHeading: 'Request for Quotation',
-    rfqDesc: 'We invite property owners, visionary developers, and leading contracting companies to discuss bespoke architectural and visualization commissions.',
     rfqNameLabel: 'Full Name *',
     rfqNamePlaceholder: 'e.g. Alexander Vance',
     rfqEmailLabel: 'Email Address *',
@@ -136,7 +135,6 @@ const I18N_DICTIONARY = {
     // RFQ Section
     rfqEyebrow: 'طلب استشارة وتكلفة',
     rfqHeading: 'طلب عرض سعر للمشروع',
-    rfqDesc: 'ندعو ملاك العقارات والمطورين العقاريين وشركات المقاولات الرائدة لمناقشة مشاريعهم المعمارية وتطلعاتهم البصرية.',
     rfqNameLabel: 'الاسم الكامل *',
     rfqNamePlaceholder: 'مثال: محمد الشريف',
     rfqEmailLabel: 'البريد الإلكتروني *',
@@ -174,6 +172,13 @@ const I18N_DICTIONARY = {
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const mobileToggle = document.getElementById('mobile-toggle');
   const navMenu = document.getElementById('nav-menu');
+
+  document.querySelectorAll('a[href*="instagram.com"]').forEach((link) => {
+    link.href = window.AZURA_CONFIG.SOCIAL_LINKS.instagram;
+  });
+  document.querySelectorAll('a[href*="facebook.com"]').forEach((link) => {
+    link.href = window.AZURA_CONFIG.SOCIAL_LINKS.facebook;
+  });
 
   // --- Theme Management ---
   function applyTheme(theme) {

@@ -88,7 +88,6 @@ const I18N_DICTIONARY = {
     footerRights: 'All rights reserved.',
 
     // Privacy & Consent
-    rfqPrivacyText: 'We use your inquiry details to respond and maintain business records in Google Sheets. Records are kept without scheduled deletion. For questions about your data, email contact@azurastudio.site. Analytics is optional and declining it will not affect your request.',
     footerPrivacyPref: 'Privacy & Analytics Settings',
     consentBannerText: 'With your permission, we collect website interaction analytics to understand how visitors use our portfolio. Analytics records are kept without scheduled deletion. We do not track form contents.',
     consentAccept: 'Accept Analytics',
@@ -167,7 +166,6 @@ const I18N_DICTIONARY = {
     footerRights: 'جميع الحقوق محفوظة.',
 
     // Privacy & Consent
-    rfqPrivacyText: 'نستخدم بيانات طلبك للرد عليك والاحتفاظ بسجلات العمل في جداول بيانات Google. نحتفظ بالسجلات دون حذف تلقائي. للاستفسار عن بياناتك، راسلنا على contact@azurastudio.site. التحليلات اختيارية، ورفضها لا يؤثر على طلبك.',
     footerPrivacyPref: 'إعدادات الخصوصية والتحليلات',
     consentBannerText: 'بموافقتك، نجمع بيانات عن التفاعل مع الموقع لفهم استخدام معرض أعمالنا. نحتفظ بسجلات التحليلات دون حذف تلقائي، ولا نسجل محتوى النماذج.',
     consentAccept: 'قبول التحليلات',

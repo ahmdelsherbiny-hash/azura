@@ -2041,20 +2041,6 @@ textarea:focus-visible {
 /* =========================================================================
    PRIVACY NOTICE & ANALYTICS CONSENT BANNER
    ========================================================================= */
-.rfq-privacy-notice {
-  margin-top: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: var(--text-secondary);
-}
-
-.rfq-privacy-notice a {
-  color: var(--accent-gold, #c5a880);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
 
 .footer-pref-btn {
   background: none;

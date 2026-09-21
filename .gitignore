@@ -4,12 +4,15 @@ backend/azura resend api.txt
 .env
 .env.*
 !.env.example
+.dev.vars*
 
 # Local-only admin dashboard
 dashboard.html
 
 # Local deployment metadata
 .vercel/
+.wrangler/
+dist/
 
 # Generated caches
 __pycache__/

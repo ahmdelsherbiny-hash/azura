@@ -4,33 +4,51 @@
  * ============================================================================
  * Batches telemetry events locally to drastically minimize Cloudflare Worker calls.
  * 
- * Features:
- * - Anonymous persistent Session ID (sessionStorage)
- * - Automatic Device Detection (Mobile, Desktop, Tablet, OS)
- * - In-memory event queue
- * - Configurable flush thresholds: queue size >= 8 or every 30 seconds
- * - Page unload flush via navigator.sendBeacon() / fetch(..., { keepalive: true })
- * - Privacy-respecting: NO keystrokes, NO form field recording, NO replay
+ * Privacy & Consent Rules:
+ * - Prior to explicit visitor consent: NO session ID is created, NO events are
+ *   queued/stored, and NO timers are active.
+ * - Upon consent decline or revocation: all timers are stopped, any pending queue
+ *   is purged, and the session ID is removed.
+ * - Referrer is strictly sanitized to hostname only (never full path or query).
+ * - NO keystrokes, NO form field recording, NO replay.
  * ============================================================================
  */
 
 const AzuraAnalytics = (function () {
   'use strict';
 
-  // Configuration
   const CONFIG = {
     endpoint: window.AZURA_CONFIG?.ANALYTICS_ENDPOINT || 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/analytics/batch',
-    flushIntervalMs: 30000, // Flush every 30 seconds
-    maxBatchSize: 8,        // Flush immediately when 8 events accumulate
-    maxQueueCap: 50         // Safety ceiling
+    flushIntervalMs: 30000,
+    maxBatchSize: 8,
+    maxQueueCap: 50
   };
 
-  // State
   let eventQueue = [];
   let flushTimer = null;
-  const sessionStartTime = Date.now();
+  let sessionId = null;
+  let sessionStartTime = null;
+  let isInitialized = false;
+  let deviceInfo = null;
 
-  // Helper: Retrieve or create unique anonymous session ID
+  function hasConsent() {
+    try {
+      return localStorage.getItem('azura_analytics_consent') === 'granted';
+    } catch {
+      return false;
+    }
+  }
+
+  function getCleanReferrer() {
+    try {
+      if (!document.referrer) return 'direct';
+      const parsed = new URL(document.referrer);
+      return parsed.hostname || 'direct';
+    } catch {
+      return 'direct';
+    }
+  }
+
   function getSessionId() {
     try {
       let sid = sessionStorage.getItem('azura_session_id');
@@ -40,11 +58,10 @@ const AzuraAnalytics = (function () {
       }
       return sid;
     } catch {
-      return 'anon_' + Date.now();
+      return 'azr_' + Math.random().toString(36).substring(2, 10);
     }
   }
 
-  // Helper: Detect Device Type (Mobile / Desktop / Tablet) & OS
   function getDeviceInfo() {
     try {
       const ua = navigator.userAgent || '';
@@ -73,78 +90,68 @@ const AzuraAnalytics = (function () {
     }
   }
 
-  const sessionId = getSessionId();
-  const deviceInfo = getDeviceInfo();
-
   /**
-   * Public function to queue an analytics event
-   * @param {string} eventType - e.g. "section_view", "project_click", "rfq_start"
-   * @param {object} [details={}] - Optional metadata (section, project, etc.)
+   * Queue an analytics event.
+   * STRICT: If consent has not been granted, immediately drops the event without storing.
    */
   function trackEvent(eventType, details = {}) {
+    if (!hasConsent()) return;
     if (!eventType || typeof eventType !== 'string') return;
+    if (!sessionId) {
+      sessionId = getSessionId();
+    }
 
+    const currentDevice = deviceInfo || getDeviceInfo();
     const eventRecord = {
       type: eventType.slice(0, 50),
       timestamp: new Date().toISOString(),
-      page: window.location.pathname || '/',
-      section: details.section || details.sectionId || 'none',
-      project: details.project || details.projectName || 'none',
+      page: (window.location.pathname || '/').slice(0, 100),
+      section: (details.section || details.sectionId || 'none').slice(0, 50),
+      project: (details.project || details.projectName || 'none').slice(0, 80),
       metadata: {
-        device: deviceInfo.type,
-        os: deviceInfo.os,
-        screen: deviceInfo.screen,
+        device: currentDevice.type,
+        os: currentDevice.os,
+        screen: currentDevice.screen,
         lang: document.documentElement.getAttribute('lang') || 'en',
         theme: document.documentElement.getAttribute('data-theme') || 'dark',
-        durationSec: Math.floor((Date.now() - sessionStartTime) / 1000),
-        ...(typeof details.metadata === 'object' ? details.metadata : {})
+        durationSec: sessionStartTime ? Math.floor((Date.now() - sessionStartTime) / 1000) : 0,
+        ...(typeof details.metadata === 'object' && !Array.isArray(details.metadata) ? details.metadata : {})
       }
     };
 
-    // Merge any loose parameters
-    for (const key of Object.keys(details)) {
-      if (!['section', 'sectionId', 'project', 'projectName', 'metadata'].includes(key)) {
-        eventRecord.metadata[key] = details[key];
-      }
-    }
-
     eventQueue.push(eventRecord);
 
-    // Prevent unbounded memory growth
     if (eventQueue.length > CONFIG.maxQueueCap) {
       eventQueue = eventQueue.slice(-CONFIG.maxQueueCap);
     }
 
-    // Flush immediately if batch threshold reached
     if (eventQueue.length >= CONFIG.maxBatchSize) {
-      flushQueue();
+      flushQueue(false);
     }
   }
 
   /**
-   * Sends queued events to the Cloudflare Worker API
-   * @param {boolean} [isUnloading=false] - True if triggered on page hide/exit
+   * Flush queued events to Worker API
    */
   function flushQueue(isUnloading = false) {
-    if (eventQueue.length === 0) return;
+    if (!hasConsent() || eventQueue.length === 0 || !sessionId) {
+      eventQueue = [];
+      return;
+    }
 
     const eventsToSend = [...eventQueue];
-    eventQueue = []; // Clear queue immediately
+    eventQueue = [];
 
-    const payload = {
+    const payloadString = JSON.stringify({
       sessionId: sessionId,
       events: eventsToSend
-    };
+    });
 
-    const payloadString = JSON.stringify(payload);
-
-    // If page is closing/hiding, use sendBeacon or keepalive fetch
     if (isUnloading) {
       if (navigator.sendBeacon) {
         try {
           const blob = new Blob([payloadString], { type: 'application/json' });
-          const sent = navigator.sendBeacon(CONFIG.endpoint, blob);
-          if (sent) return;
+          if (navigator.sendBeacon(CONFIG.endpoint, blob)) return;
         } catch {}
       }
 
@@ -159,23 +166,23 @@ const AzuraAnalytics = (function () {
       return;
     }
 
-    // Standard asynchronous flush
     fetch(CONFIG.endpoint, {
       method: 'POST',
       body: payloadString,
       headers: { 'Content-Type': 'application/json' }
     })
     .then((res) => {
-      if (!res.ok) {
+      if (!res.ok && hasConsent()) {
         eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
       }
     })
     .catch(() => {
-      eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
+      if (hasConsent()) {
+        eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
+      }
     });
   }
 
-  // Periodic timer for automatic flush
   function startInterval() {
     if (flushTimer) clearInterval(flushTimer);
     flushTimer = setInterval(() => {
@@ -183,22 +190,27 @@ const AzuraAnalytics = (function () {
     }, CONFIG.flushIntervalMs);
   }
 
-  // Initialize event listeners & automated tracking
-  function init() {
-    startInterval();
+  function stopTracking() {
+    if (flushTimer) {
+      clearInterval(flushTimer);
+      flushTimer = null;
+    }
+    eventQueue = [];
+    sessionId = null;
+    sessionStartTime = null;
+    try {
+      sessionStorage.removeItem('azura_session_id');
+    } catch {}
+  }
 
-    // 1. Initial Session Start with Device Telemetry
-    trackEvent('session_start', {
-      metadata: {
-        referrer: document.referrer || 'direct',
-        device: deviceInfo.type,
-        os: deviceInfo.os
-      }
-    });
+  function setupListeners() {
+    if (isInitialized) return;
+    isInitialized = true;
 
-    // 2. Automated Intersection Observer for Section Views
+    // Section view intersection observer
     if ('IntersectionObserver' in window) {
       const sectionObserver = new IntersectionObserver((entries) => {
+        if (!hasConsent()) return;
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
             const secId = entry.target.id || entry.target.getAttribute('data-section') || 'unnamed';
@@ -212,8 +224,10 @@ const AzuraAnalytics = (function () {
       });
     }
 
-    // 3. Project Card Click Tracking
+    // Interaction delegated clicks
     document.addEventListener('click', (e) => {
+      if (!hasConsent()) return;
+
       const card = e.target.closest('.project-card, [data-project]');
       if (card) {
         const title = card.querySelector('.project-name, h3, h4')?.textContent?.trim() || card.getAttribute('data-project') || 'Project';
@@ -221,7 +235,6 @@ const AzuraAnalytics = (function () {
         return;
       }
 
-      // Social Links
       const socialLink = e.target.closest('.social-link, [data-social]');
       if (socialLink) {
         const platform = socialLink.getAttribute('data-social') || socialLink.getAttribute('aria-label') || 'Social';
@@ -229,44 +242,95 @@ const AzuraAnalytics = (function () {
         return;
       }
 
-      // CTA buttons
       const ctaBtn = e.target.closest('.btn-primary, .cta-btn, a[href="#contact"], a[href="#rfq"]');
-      if (ctaBtn) {
+      if (ctaBtn && !ctaBtn.closest('#azura-consent-banner')) {
         const label = ctaBtn.textContent?.trim() || 'CTA';
-        trackEvent('cta_click', { metadata: { label } });
+        trackEvent('cta_click', { metadata: { label: label.slice(0, 50) } });
       }
     });
 
-    // 4. Page Visibility & Unload Flush
+    // Unload flush
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
+      if (document.visibilityState === 'hidden' && hasConsent()) {
         flushQueue(true);
       }
     });
 
     window.addEventListener('pagehide', () => {
-      trackEvent('session_end', {
-        metadata: { totalSeconds: Math.floor((Date.now() - sessionStartTime) / 1000) }
-      });
-      flushQueue(true);
+      if (hasConsent() && sessionId) {
+        trackEvent('session_end', {
+          metadata: { totalSeconds: sessionStartTime ? Math.floor((Date.now() - sessionStartTime) / 1000) : 0 }
+        });
+        flushQueue(true);
+      }
     });
   }
 
-  // Auto-init on DOM ready
+  function startTracking() {
+    sessionId = getSessionId();
+    sessionStartTime = Date.now();
+    deviceInfo = getDeviceInfo();
+
+    setupListeners();
+    startInterval();
+
+    // Fire initial session start with hostname-only referrer
+    trackEvent('session_start', {
+      metadata: {
+        referrer: getCleanReferrer(),
+        device: deviceInfo.type,
+        os: deviceInfo.os
+      }
+    });
+  }
+
+  /**
+   * Manage Visitor Consent State
+   * @param {boolean} granted - true to accept, false to decline/revoke
+   */
+  function setConsent(granted) {
+    try {
+      if (granted) {
+        localStorage.setItem('azura_analytics_consent', 'granted');
+        startTracking();
+      } else {
+        localStorage.setItem('azura_analytics_consent', 'denied');
+        stopTracking();
+      }
+    } catch {}
+
+    window.dispatchEvent(new CustomEvent('azura:consent-changed', {
+      detail: { consent: granted ? 'granted' : 'denied' }
+    }));
+  }
+
+  // Check consent state on DOM load
+  function init() {
+    if (hasConsent()) {
+      startTracking();
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // Public Interface
   return {
     track: trackEvent,
     flush: () => flushQueue(false),
+    setConsent: setConsent,
+    getConsentState: () => {
+      try {
+        return localStorage.getItem('azura_analytics_consent');
+      } catch {
+        return null;
+      }
+    },
     getSessionId: () => sessionId,
-    getDeviceInfo: () => deviceInfo
+    getDeviceInfo: () => deviceInfo || getDeviceInfo()
   };
 })();
 
-// Expose globally
 window.AzuraAnalytics = AzuraAnalytics;

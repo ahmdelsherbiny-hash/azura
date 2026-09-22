@@ -4,11 +4,8 @@
  * ============================================================================
  * Batches telemetry events locally to drastically minimize Cloudflare Worker calls.
  * 
- * Privacy & Consent Rules:
- * - Prior to explicit visitor consent: NO session ID is created, NO events are
- *   queued/stored, and NO timers are active.
- * - Upon consent decline or revocation: all timers are stopped, any pending queue
- *   is purged, and the session ID is removed.
+ * Rules:
+ * - Session ID is generated per browser session in sessionStorage.
  * - Referrer is strictly sanitized to hostname only (never full path or query).
  * - NO keystrokes, NO form field recording, NO replay.
  * ============================================================================
@@ -31,13 +28,10 @@ const AzuraAnalytics = (function () {
   let isInitialized = false;
   let deviceInfo = null;
 
-  function hasConsent() {
-    try {
-      return localStorage.getItem('azura_analytics_consent') === 'granted';
-    } catch {
-      return false;
-    }
-  }
+  // Clean up any legacy consent state so it doesn't linger
+  try {
+    localStorage.removeItem('azura_analytics_consent');
+  } catch {}
 
   function getCleanReferrer() {
     try {
@@ -92,10 +86,8 @@ const AzuraAnalytics = (function () {
 
   /**
    * Queue an analytics event.
-   * STRICT: If consent has not been granted, immediately drops the event without storing.
    */
   function trackEvent(eventType, details = {}) {
-    if (!hasConsent()) return;
     if (!eventType || typeof eventType !== 'string') return;
     if (!sessionId) {
       sessionId = getSessionId();
@@ -134,7 +126,7 @@ const AzuraAnalytics = (function () {
    * Flush queued events to Worker API
    */
   function flushQueue(isUnloading = false) {
-    if (!hasConsent() || eventQueue.length === 0 || !sessionId) {
+    if (eventQueue.length === 0 || !sessionId) {
       eventQueue = [];
       return;
     }
@@ -172,14 +164,12 @@ const AzuraAnalytics = (function () {
       headers: { 'Content-Type': 'application/json' }
     })
     .then((res) => {
-      if (!res.ok && hasConsent()) {
+      if (!res.ok) {
         eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
       }
     })
     .catch(() => {
-      if (hasConsent()) {
-        eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
-      }
+      eventQueue = [...eventsToSend.slice(-15), ...eventQueue].slice(-CONFIG.maxQueueCap);
     });
   }
 
@@ -210,7 +200,6 @@ const AzuraAnalytics = (function () {
     // Section view intersection observer
     if ('IntersectionObserver' in window) {
       const sectionObserver = new IntersectionObserver((entries) => {
-        if (!hasConsent()) return;
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
             const secId = entry.target.id || entry.target.getAttribute('data-section') || 'unnamed';
@@ -226,8 +215,6 @@ const AzuraAnalytics = (function () {
 
     // Interaction delegated clicks
     document.addEventListener('click', (e) => {
-      if (!hasConsent()) return;
-
       const card = e.target.closest('.project-card, [data-project]');
       if (card) {
         const title = card.querySelector('.project-name, h3, h4')?.textContent?.trim() || card.getAttribute('data-project') || 'Project';
@@ -243,7 +230,7 @@ const AzuraAnalytics = (function () {
       }
 
       const ctaBtn = e.target.closest('.btn-primary, .cta-btn, a[href="#contact"], a[href="#rfq"]');
-      if (ctaBtn && !ctaBtn.closest('#azura-consent-banner')) {
+      if (ctaBtn) {
         const label = ctaBtn.textContent?.trim() || 'CTA';
         trackEvent('cta_click', { metadata: { label: label.slice(0, 50) } });
       }
@@ -251,13 +238,13 @@ const AzuraAnalytics = (function () {
 
     // Unload flush
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden' && hasConsent()) {
+      if (document.visibilityState === 'hidden') {
         flushQueue(true);
       }
     });
 
     window.addEventListener('pagehide', () => {
-      if (hasConsent() && sessionId) {
+      if (sessionId) {
         trackEvent('session_end', {
           metadata: { totalSeconds: sessionStartTime ? Math.floor((Date.now() - sessionStartTime) / 1000) : 0 }
         });
@@ -284,31 +271,9 @@ const AzuraAnalytics = (function () {
     });
   }
 
-  /**
-   * Manage Visitor Consent State
-   * @param {boolean} granted - true to accept, false to decline/revoke
-   */
-  function setConsent(granted) {
-    try {
-      if (granted) {
-        localStorage.setItem('azura_analytics_consent', 'granted');
-        startTracking();
-      } else {
-        localStorage.setItem('azura_analytics_consent', 'denied');
-        stopTracking();
-      }
-    } catch {}
-
-    window.dispatchEvent(new CustomEvent('azura:consent-changed', {
-      detail: { consent: granted ? 'granted' : 'denied' }
-    }));
-  }
-
-  // Check consent state on DOM load
+  // Auto-start on DOM ready
   function init() {
-    if (hasConsent()) {
-      startTracking();
-    }
+    startTracking();
   }
 
   if (document.readyState === 'loading') {
@@ -320,14 +285,8 @@ const AzuraAnalytics = (function () {
   return {
     track: trackEvent,
     flush: () => flushQueue(false),
-    setConsent: setConsent,
-    getConsentState: () => {
-      try {
-        return localStorage.getItem('azura_analytics_consent');
-      } catch {
-        return null;
-      }
-    },
+    setConsent: () => {},
+    getConsentState: () => 'granted',
     getSessionId: () => sessionId,
     getDeviceInfo: () => deviceInfo || getDeviceInfo()
   };

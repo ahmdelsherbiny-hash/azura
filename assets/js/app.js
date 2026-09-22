@@ -85,12 +85,6 @@ const I18N_DICTIONARY = {
     // Footer
     footerTagline: 'Spaces Inspired by a Brighter Tomorrow.',
     footerRights: 'All rights reserved.',
-
-    // Privacy & Consent
-    footerPrivacyPref: 'Privacy & Analytics Settings',
-    consentBannerText: 'With your permission, we collect website interaction analytics to understand how visitors use our portfolio. Analytics records are kept without scheduled deletion. We do not track form contents.',
-    consentAccept: 'Accept Analytics',
-    consentDecline: 'Decline'
   },
 
   ar: {
@@ -163,12 +157,6 @@ const I18N_DICTIONARY = {
     // Footer
     footerTagline: 'مساحات مستوحاة من غدٍ أكثر إشراقاً.',
     footerRights: 'جميع الحقوق محفوظة.',
-
-    // Privacy & Consent
-    footerPrivacyPref: 'إعدادات الخصوصية والتحليلات',
-    consentBannerText: 'بموافقتك، نجمع بيانات عن التفاعل مع الموقع لفهم استخدام معرض أعمالنا. نحتفظ بسجلات التحليلات دون حذف تلقائي، ولا نسجل محتوى النماذج.',
-    consentAccept: 'قبول التحليلات',
-    consentDecline: 'رفض'
   }
 };
 
@@ -347,49 +335,7 @@ const I18N_DICTIONARY = {
 
   revealElements.forEach((el) => revealObserver.observe(el));
 
-  // Privacy & Consent Banner Controller
-  function initConsentBanner() {
-    const banner = document.getElementById('azura-consent-banner');
-    const acceptBtn = document.getElementById('consent-accept-btn');
-    const declineBtn = document.getElementById('consent-decline-btn');
-    const prefBtn = document.getElementById('privacy-pref-btn');
-
-    if (!banner) return;
-
-    const currentConsent = window.AzuraAnalytics ? window.AzuraAnalytics.getConsentState() : null;
-    if (currentConsent === null) {
-      banner.style.display = 'block';
-    } else {
-      banner.style.display = 'none';
-    }
-
-    if (acceptBtn) {
-      acceptBtn.addEventListener('click', () => {
-        if (window.AzuraAnalytics) {
-          window.AzuraAnalytics.setConsent(true);
-        }
-        banner.style.display = 'none';
-      });
-    }
-
-    if (declineBtn) {
-      declineBtn.addEventListener('click', () => {
-        if (window.AzuraAnalytics) {
-          window.AzuraAnalytics.setConsent(false);
-        }
-        banner.style.display = 'none';
-      });
-    }
-
-    if (prefBtn) {
-      prefBtn.addEventListener('click', () => {
-        banner.style.display = 'block';
-      });
-    }
-  }
-
   // Initialize
   applyTheme(currentTheme);
   applyLanguage(currentLang);
-  initConsentBanner();
 })();

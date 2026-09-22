@@ -5,9 +5,8 @@
 
 // Global Public Config Object
 window.AZURA_CONFIG = {
-  // Replace these with your live Cloudflare Worker URL upon deployment
-  ANALYTICS_ENDPOINT: '',
-  RFQ_ENDPOINT: '',
+  ANALYTICS_ENDPOINT: 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/analytics/batch',
+  RFQ_ENDPOINT: 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/rfq',
   SOCIAL_LINKS: {
     instagram: 'https://www.instagram.com/azurastudi0?stkn=MWtubWNiZHNnOWZ2Yw%3D%3D&utm_source=qr',
     facebook: 'https://www.facebook.com/share/1K6bCbvGno/?mibextid=wwXIfr',

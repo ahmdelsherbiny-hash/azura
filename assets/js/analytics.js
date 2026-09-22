@@ -18,7 +18,7 @@ const AzuraAnalytics = (function () {
   'use strict';
 
   const CONFIG = {
-    endpoint: window.AZURA_CONFIG?.ANALYTICS_ENDPOINT || 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/analytics/batch',
+    endpoint: window.AZURA_CONFIG.ANALYTICS_ENDPOINT,
     flushIntervalMs: 30000,
     maxBatchSize: 8,
     maxQueueCap: 50

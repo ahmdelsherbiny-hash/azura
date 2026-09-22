@@ -16,7 +16,8 @@
 
   if (!form) return;
 
-  const RFQ_ENDPOINT = window.AZURA_CONFIG?.RFQ_ENDPOINT || 'https://azurabackend.ahmd-elsherbiny.workers.dev/api/rfq';
+  const RFQ_ENDPOINT = window.AZURA_CONFIG.RFQ_ENDPOINT;
+  const field = (name) => form.elements.namedItem(name);
   let hasStartedRfq = false;
 
   // Track RFQ Start on first interaction without capturing sensitive input
@@ -38,12 +39,12 @@
     const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Submit';
 
     // 1. Extract values
-    const name = form.name ? form.name.value.trim() : '';
-    const email = form.email ? form.email.value.trim() : '';
-    const phone = form.phone ? form.phone.value.trim() : '';
-    const customerType = form.customerType ? form.customerType.value : (form.clientType ? form.clientType.value : 'Property Owner');
-    const brief = form.brief ? form.brief.value.trim() : (form.inquiry ? form.inquiry.value.trim() : '');
-    const honeypot = form._hp ? form._hp.value : '';
+    const name = field('name')?.value.trim() || '';
+    const email = field('email')?.value.trim() || '';
+    const phone = field('phone')?.value.trim() || '';
+    const customerType = field('customerType')?.value || field('clientType')?.value || 'Property Owner';
+    const brief = field('brief')?.value.trim() || field('inquiry')?.value.trim() || '';
+    const honeypot = field('_hp')?.value || '';
 
     // 2. Client-side Validation
     if (!name || name.length < 2) {
@@ -51,7 +52,7 @@
         isArabic ? 'يرجى إدخال الاسم الكريم بشكل صحيح.' : 'Please enter a valid full name.',
         'error'
       );
-      if (form.name) form.name.focus();
+      field('name')?.focus();
       return;
     }
 
@@ -61,7 +62,7 @@
         isArabic ? 'يرجى إدخال بريد إلكتروني صالح للتواصل.' : 'Please provide a valid email address.',
         'error'
       );
-      if (form.email) form.email.focus();
+      field('email')?.focus();
       return;
     }
 
@@ -70,7 +71,7 @@
         isArabic ? 'يرجى تزويدنا بنبذة موجزة عن مشروعك أو استفسارك.' : 'Please write a brief summary about your project or inquiry.',
         'error'
       );
-      if (form.brief) form.brief.focus();
+      (field('brief') || field('inquiry'))?.focus();
       return;
     }
 

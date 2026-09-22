@@ -8,10 +8,12 @@ backend/azura resend api.txt
 
 # Local-only admin dashboard
 dashboard.html
+apps-script/
 
 # Local deployment metadata
 .vercel/
 .wrangler/
+.npm-deploy-cache/
 dist/
 
 # Generated caches

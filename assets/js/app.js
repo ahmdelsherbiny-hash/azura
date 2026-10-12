@@ -42,22 +42,8 @@ const I18N_DICTIONARY = {
     btnExplore: 'Explore Project',
 
     // Project Titles & Categories
-    p1Name: 'Azure Horizon Penthouse',
-    p1Cat: 'Luxury Interior / Monaco',
-    p2Name: 'Solis Desert Pavilion',
-    p2Cat: 'Architecture / Dubai',
-    p3Name: 'Lapis Marble Residence',
-    p3Cat: 'Residential Interior / London',
-    p4Name: 'Aurora Parametric Tower',
-    p4Cat: 'Commercial Architecture / Riyadh',
-    p5Name: 'Serene Courtyard Atrium',
-    p5Cat: 'Zen Sanctuary / Kyoto',
-    p6Name: 'Aethel Executive Lounge',
-    p6Cat: 'Hospitality Design / Zurich',
-    p7Name: 'Monolith Cliff Villa',
-    p7Cat: 'Coastal Architecture / Mallorca',
-    p8Name: 'Celeste Master Suite',
-    p8Cat: 'Minimalist Interior / Milan',
+    p1Name: 'Sapphire Neo-Classic Master Suite',
+    p1Cat: 'Luxury Residential Interior',
 
     // RFQ Section
     rfqEyebrow: 'Inquire',
@@ -114,22 +100,8 @@ const I18N_DICTIONARY = {
     btnExplore: 'استكشاف المشروع',
 
     // Project Titles & Categories
-    p1Name: 'بنتهاوس أفق أزورا',
-    p1Cat: 'تصميم داخلي فاخر / موناكو',
-    p2Name: 'فيلا واحة سوليس',
-    p2Cat: 'عمارة معاصرة / دبي',
-    p3Name: 'إقامة رخام اللابيس',
-    p3Cat: 'تصميم سكني راقٍ / لندن',
-    p4Name: 'برج أورورا المعماري',
-    p4Cat: 'عمارة تجارية / الرياض',
-    p5Name: 'أتريوم السكينة الياباني',
-    p5Cat: 'ملاذ زين هادئ / كيوتو',
-    p6Name: 'صالة إيثل التنفيذية',
-    p6Cat: 'تصميم ضيافة فاخر / زيورخ',
-    p7Name: 'فيلا المنحدر الصخري',
-    p7Cat: 'عمارة ساحلية / مايوركا',
-    p8Name: 'جناح سيليست الملكي',
-    p8Cat: 'تصميم داخلي مينيمال / ميلانو',
+    p1Name: 'جناح نوم ماستر نيو كلاسيك',
+    p1Cat: 'تصميم داخلي سكني فاخر',
 
     // RFQ Section
     rfqEyebrow: 'طلب استشارة وتكلفة',
@@ -172,10 +144,10 @@ const I18N_DICTIONARY = {
   const mobileToggle = document.getElementById('mobile-toggle');
   const navMenu = document.getElementById('nav-menu');
 
-  document.querySelectorAll('a[href*="instagram.com"]').forEach((link) => {
+  document.querySelectorAll('a[href*="instagram.com/azura.studio"]').forEach((link) => {
     link.href = window.AZURA_CONFIG.SOCIAL_LINKS.instagram;
   });
-  document.querySelectorAll('a[href*="facebook.com"]').forEach((link) => {
+  document.querySelectorAll('a[href*="facebook.com/azura.studio"]').forEach((link) => {
     link.href = window.AZURA_CONFIG.SOCIAL_LINKS.facebook;
   });
 

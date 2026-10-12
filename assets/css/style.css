@@ -895,6 +895,11 @@ textarea:focus-visible {
   transform: rotate(180deg);
 }
 
+.voyage-slider-btn[hidden],
+.voyage-controls-bar[hidden] {
+  display: none !important;
+}
+
 /* Slides Wrapper Stage */
 .voyage-slides-wrapper {
   position: relative;

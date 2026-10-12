@@ -75,6 +75,12 @@
         infoStage.setAttribute('aria-live', 'polite');
       }
 
+      const isSingleSlide = this.total <= 1;
+      if (this.btnPrev) this.btnPrev.hidden = isSingleSlide;
+      if (this.btnNext) this.btnNext.hidden = isSingleSlide;
+      const controlsBar = this.section.querySelector('.voyage-controls-bar');
+      if (controlsBar) controlsBar.hidden = isSingleSlide;
+
       // Initial state render
       this.updateState(0);
 

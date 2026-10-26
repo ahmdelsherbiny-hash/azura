@@ -46,6 +46,8 @@ const I18N_DICTIONARY = {
     p1Cat: 'Luxury Residential Interior',
     p2Name: 'Twilight Terrace Lounge',
     p2Cat: 'Outdoor Architecture & Terrace',
+    p3Name: 'Travertine & Fluted Wood Master Bath',
+    p3Cat: 'Luxury Residential Interior',
 
     // RFQ Section
     rfqEyebrow: 'Inquire',
@@ -106,6 +108,8 @@ const I18N_DICTIONARY = {
     p1Cat: 'تصميم داخلي سكني فاخر',
     p2Name: 'لاونج التراس المسائي',
     p2Cat: 'عمارة وتصميم مساحات خارجية',
+    p3Name: 'حمام ماستر ترافنتينو وخشب طبيعي',
+    p3Cat: 'تصميم داخلي سكني فاخر',
 
     // RFQ Section
     rfqEyebrow: 'طلب استشارة وتكلفة',

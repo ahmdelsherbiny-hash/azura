@@ -15,7 +15,7 @@
   <meta property="og:type" content="website" />
 
   <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="assets/css/style.css?v=20261026-p2" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20261026-p3" />
   <link rel="stylesheet" href="assets/css/animations.css" />
 </head>
 <body>
@@ -149,6 +149,7 @@
     <div class="voyage-ambient-wrap">
       <div class="voyage-slide-bg" style="--bg: url('../images/project_1.jpg');" data-current></div>
       <div class="voyage-slide-bg" style="--bg: url('../images/project_2.jpg');" data-next></div>
+      <div class="voyage-slide-bg" style="--bg: url('../images/project_3.jpg');" data-previous></div>
     </div>
 
     <div class="container voyage-section-container">
@@ -211,11 +212,42 @@
               </div>
             </div>
 
-            <!-- Slide 2 -->
-            <div class="voyage-slide" data-next data-index="1">
+            <!-- Slide 2 -->
+            <div class="voyage-slide" data-next data-index="1">
+              <div class="voyage-slide-inner">
+                <div class="voyage-slide-img-box">
+                  <img class="voyage-slide-img" src="assets/images/project_2.jpg" alt="Twilight Terrace Lounge" loading="lazy" />
+                  <div class="voyage-slide-shine"></div>
+                </div>
+                <!-- Dual Social Action Circles -->
+                <div class="voyage-card-actions">
+                  <a href="#" class="voyage-social-circle voyage-social-ig" aria-label="Instagram (Coming Soon)" title="Instagram (Coming Soon)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                  <a href="https://www.facebook.com/share/p/1DeaZH1gp1/" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    <span class="voyage-social-arrow">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="voyage-slide" data-previous data-index="2">
               <div class="voyage-slide-inner">
                 <div class="voyage-slide-img-box">
-                  <img class="voyage-slide-img" src="assets/images/project_2.jpg" alt="Twilight Terrace Lounge" loading="lazy" />
+                  <img class="voyage-slide-img" src="assets/images/project_3.jpg" alt="Travertine & Fluted Wood Master Bath" loading="lazy" />
                   <div class="voyage-slide-shine"></div>
                 </div>
                 <!-- Dual Social Action Circles -->
@@ -230,7 +262,7 @@
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                     </span>
                   </a>
-                  <a href="https://www.facebook.com/share/p/1DeaZH1gp1/" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
+                  <a href="https://www.facebook.com/share/p/1CEERxx5b7/" target="_blank" rel="noopener" class="voyage-social-circle voyage-social-fb" aria-label="Explore on Facebook" title="Facebook">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                     </svg>
@@ -267,18 +299,38 @@
               </div>
             </div>
 
-            <!-- Info 2 -->
-            <div class="voyage-slide-info" data-next>
+            <!-- Info 2 -->
+            <div class="voyage-slide-info" data-next>
+              <div class="voyage-slide-info-inner">
+                <div class="voyage-info-text-wrap">
+                  <div class="voyage-info-cat">
+                    <span data-i18n="p2Cat">Outdoor Architecture & Terrace</span>
+                  </div>
+                  <div class="voyage-info-title">
+                    <span data-i18n="p2Name">Twilight Terrace Lounge</span>
+                  </div>
+                  <div class="voyage-info-action">
+                    <a href="https://www.facebook.com/share/p/1DeaZH1gp1/" target="_blank" rel="noopener" class="voyage-explore-btn">
+                      <span data-i18n="btnExplore">Explore Project</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info 3 -->
+            <div class="voyage-slide-info" data-previous>
               <div class="voyage-slide-info-inner">
                 <div class="voyage-info-text-wrap">
                   <div class="voyage-info-cat">
-                    <span data-i18n="p2Cat">Outdoor Architecture & Terrace</span>
+                    <span data-i18n="p3Cat">Luxury Residential Interior</span>
                   </div>
                   <div class="voyage-info-title">
-                    <span data-i18n="p2Name">Twilight Terrace Lounge</span>
+                    <span data-i18n="p3Name">Travertine & Fluted Wood Master Bath</span>
                   </div>
                   <div class="voyage-info-action">
-                    <a href="https://www.facebook.com/share/p/1DeaZH1gp1/" target="_blank" rel="noopener" class="voyage-explore-btn">
+                    <a href="https://www.facebook.com/share/p/1CEERxx5b7/" target="_blank" rel="noopener" class="voyage-explore-btn">
                       <span data-i18n="btnExplore">Explore Project</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
                     </a>
@@ -305,6 +357,7 @@
         <div class="voyage-dots-list">
           <button class="voyage-dot active" aria-label="Go to slide 1"></button>
           <button class="voyage-dot" aria-label="Go to slide 2"></button>
+          <button class="voyage-dot" aria-label="Go to slide 3"></button>
         </div>
       </div>
 
@@ -447,8 +500,8 @@
   <!-- Core JavaScript Modules -->
   <script src="assets/js/particles.js"></script>
   <script src="assets/js/hero-slider.js?v=20260920-about-founders"></script>
-  <script src="assets/js/voyage-slider.js?v=20261026-p2"></script>
-  <script src="assets/js/app.js?v=20261026-p2"></script>
+  <script src="assets/js/voyage-slider.js?v=20261026-p3"></script>
+  <script src="assets/js/app.js?v=20261026-p3"></script>
   <script src="assets/js/analytics.js?v=20260922-rfq-backend"></script>
   <script src="assets/js/rfq.js?v=20260922-rfq-backend"></script>
 </body>

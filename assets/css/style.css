@@ -1107,6 +1107,21 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
+.voyage-social-circle[href="#"],
+.voyage-social-circle[href=""],
+.voyage-social-circle:not([href]) {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.voyage-social-circle[href="#"]:hover,
+.voyage-social-circle[href=""]:hover,
+.voyage-social-circle:not([href]):hover {
+  transform: none;
+  background: rgba(12, 18, 27, 0.24);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
 .voyage-social-circle:hover,
 .voyage-social-circle:focus-visible {
   background: rgba(20, 29, 41, 0.48);

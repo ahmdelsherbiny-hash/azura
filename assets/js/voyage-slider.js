@@ -126,6 +126,11 @@
           if (this.hasDragged) return; // ignore click if user was dragging
           // If clicked directly on a social action link or button, let it navigate
           if (e.target.closest('.voyage-social-circle') || e.target.closest('.voyage-explore-btn')) {
+            const anchor = e.target.closest('a');
+            const href = anchor ? anchor.getAttribute('href') : '';
+            if (!href || href === '#' || href === 'javascript:void(0)' || href.trim() === '') {
+              e.preventDefault();
+            }
             return;
           }
 
@@ -207,11 +212,11 @@
         if (idx === currIdx) {
           slide.setAttribute('data-current', '');
           slide.style.zIndex = '30';
+        } else if (this.total === 2 || idx === nextIdx) {
+          slide.setAttribute('data-next', '');
+          slide.style.zIndex = '10';
         } else if (idx === prevIdx) {
           slide.setAttribute('data-previous', '');
-          slide.style.zIndex = '10';
-        } else if (idx === nextIdx) {
-          slide.setAttribute('data-next', '');
           slide.style.zIndex = '10';
         } else {
           slide.setAttribute('data-idle', '');
@@ -235,10 +240,10 @@
 
         if (idx === currIdx) {
           info.setAttribute('data-current', '');
+        } else if (this.total === 2 || idx === nextIdx) {
+          info.setAttribute('data-next', '');
         } else if (idx === prevIdx) {
           info.setAttribute('data-previous', '');
-        } else if (idx === nextIdx) {
-          info.setAttribute('data-next', '');
         } else {
           info.setAttribute('data-idle', '');
         }
@@ -255,10 +260,10 @@
 
         if (idx === currIdx) {
           bg.setAttribute('data-current', '');
+        } else if (this.total === 2 || idx === nextIdx) {
+          bg.setAttribute('data-next', '');
         } else if (idx === prevIdx) {
           bg.setAttribute('data-previous', '');
-        } else if (idx === nextIdx) {
-          bg.setAttribute('data-next', '');
         } else {
           bg.setAttribute('data-idle', '');
         }

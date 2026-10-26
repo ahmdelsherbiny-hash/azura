@@ -44,6 +44,8 @@ const I18N_DICTIONARY = {
     // Project Titles & Categories
     p1Name: 'Sapphire Neo-Classic Master Suite',
     p1Cat: 'Luxury Residential Interior',
+    p2Name: 'Twilight Terrace Lounge',
+    p2Cat: 'Outdoor Architecture & Terrace',
 
     // RFQ Section
     rfqEyebrow: 'Inquire',
@@ -102,6 +104,8 @@ const I18N_DICTIONARY = {
     // Project Titles & Categories
     p1Name: 'جناح نوم ماستر نيو كلاسيك',
     p1Cat: 'تصميم داخلي سكني فاخر',
+    p2Name: 'لاونج التراس المسائي',
+    p2Cat: 'عمارة وتصميم مساحات خارجية',
 
     // RFQ Section
     rfqEyebrow: 'طلب استشارة وتكلفة',
